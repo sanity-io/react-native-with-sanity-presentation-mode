@@ -4,7 +4,6 @@
   "version": "1.0.0",
   "scripts": {
     "start": "expo start",
-    "reset-project": "node ./scripts/reset-project.js",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
@@ -12,9 +11,13 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^14.1.0",
+    "@react-native-async-storage/async-storage": "^2.1.2",
     "@react-navigation/bottom-tabs": "^7.3.10",
     "@react-navigation/elements": "^2.3.8",
     "@react-navigation/native": "^7.1.6",
+    "@sanity/client": "^7.4.0",
+    "@sanity/preview-url-secret": "^2.1.11",
+    "@sanity/visual-editing": "^2.15.0",
     "expo": "~53.0.9",
     "expo-blur": "~14.1.4",
     "expo-constants": "~17.1.6",
@@ -41,9 +44,10 @@
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@types/react": "~19.0.10",
-    "typescript": "~5.8.3",
     "eslint": "^9.25.0",
-    "eslint-config-expo": "~9.2.0"
+    "eslint-config-expo": "~9.2.0",
+    "typescript": "~5.8.3"
   },
-  "private": true
+  "private": true,
+  "packageManager": "pnpm@10.11.0+sha512.6540583f41cc5f628eb3d9773ecee802f4f9ef9923cc45b69890fb47991d4b092964694ec3a4f738a420c918a333062c8b925d312f42e4f0c263eb603551f977"
 }
