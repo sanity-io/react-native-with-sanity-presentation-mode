@@ -5,14 +5,27 @@ import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { createSanityClient } from '@/data/sanity';
+import { getQueryOptions, getSession } from '@/utils/preview';
 
-export default function HomeScreen() {
-  const [data, setData] = useState<{_id: string, name: string, image: {asset: {url: string}}}[]>([]);
+export default function PeopleScreen() {
+  const [data, setData] = useState<{_id: string, name: string, slug: {current: string}, image: {asset: {url: string}}}[]>([]);
 
   useEffect(() => {
     const  fetchData = async () => {
-      const client = createSanityClient({});
-      const data = await client.fetch(`*[_type == "person"]| order(title asc) { _id, name, image { asset -> { url } } } `)
+      let token = undefined;
+      const session = await getSession(); 
+      if(session){
+        const result = await fetch('/api/validate', {
+          method: 'POST',
+          body: JSON.stringify(session)
+        })
+        const body = await result.json();
+        token = body.token;
+      }
+
+      const client = createSanityClient({token});
+      const queryOptions = getQueryOptions(token);
+      const data = await client.fetch(`*[_type == "person"]| order(title asc) { _id, name, slug { current }, image { asset -> { url } } } `, {}, queryOptions)
       setData(data)
     }
 
@@ -32,8 +45,7 @@ export default function HomeScreen() {
         <ThemedView style={styles.titleContainer}>
           <ThemedText type="title">People:</ThemedText>
         </ThemedView>
-        { data?.map((person: any) => (<ThemedText key={person._id}>{person.name}</ThemedText>)) }    
-
+        { data?.map((person: any) => (<ThemedText key={person.slug.current}>{person.name}</ThemedText>)) }    
       </ParallaxScrollView>
   );
 }

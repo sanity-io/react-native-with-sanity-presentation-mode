@@ -7,14 +7,13 @@ import { Link } from 'expo-router';
 export default function HomeScreen() {
   return (
       <ParallaxScrollView
-        headerImage={<Image source={{ uri: '' }} style={styles?.headerImage} />}
+        headerImage={<Image source={require('@/assets/images/camera.jpg')} style={styles.headerImage} />}
         headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
       >
         <ThemedView style={styles.titleContainer}>
           <Link href="/movies">Movies</Link>
           <Link href="/people">People</Link>
         </ThemedView>
-
       </ParallaxScrollView>
 
   );
@@ -22,7 +21,6 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   titleContainer: {
-    
     flexDirection: 'column',
     alignItems: 'center',
     gap: 10
@@ -32,7 +30,8 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   headerImage: {
-    width: '0%',
-    height: '0%',
+    width: '100%',
+    height: 300,
+    resizeMode: 'cover',
   },
 });

@@ -1,19 +1,29 @@
-# Welcome to your Expo app 👋
+# React Native x Sanity Visual Editing
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This project is intended to provide a starting point for development of React Native apps that load data using the Sanity Client. 
+
+In order for the queries to succeed that are used for the example pages `"movies"` and `"people"`, it is assumed that you have done the following steps: 
+1. Run `sanity init` in some repo (this or another, depending on where you want to manage your studio config)
+2. When that init script asks you to chose a project template, you've chosen `Movie project (schema + sample data)`
+3. When the init script asks `Add a sampling of sci-fi movies to your dataset on the hosted backend?`, you choose yes. 
+
+Without these steps, the runtime of the React Native app itself shouldn't crash or have issues, but you won't see anything load on those test screens (feel free to remove them and update the nav if they are not needed).
 
 ## Get started
+
+#### NOTE: pnpm is recommended, development using other package managers has not been rigorously tested.
 
 1. Install dependencies
 
    ```bash
-   npm install
+   pnpm install
    ```
+
 
 2. Start the app
 
    ```bash
-   npx expo start
+   pnpm exec expo start
    ```
 
 In the output, you'll find options to open the app in a
@@ -25,26 +35,4 @@ In the output, you'll find options to open the app in a
 
 You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
 
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Note the use of shims for several standard modules from Node that are not part of the React Native runtime -- see metro.config.js. Run the expo start command above with the `--clear` flag to clear the metro cache if you make additions to those shims for your own use case.

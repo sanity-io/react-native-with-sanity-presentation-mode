@@ -1,22 +1,22 @@
+import SanityPreviewParams from '@/app/types/preview';
 import { ThemedText } from '@/components/ThemedText';
 import { BASE_URL } from '@/constants';
+import { setSession } from '@/utils/preview';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 
-
 export default function EnablePresentation() {
   const router = useRouter();
-  const params = useLocalSearchParams();
+  const params = useLocalSearchParams() as SanityPreviewParams;
 
   useEffect(() => {
     const validateAndEnablePreview = async () => {
-      const { 'sanity-preview-secret': secret, 'sanity-preview-pathname': pathname = '/', 'sanity-preview-perspective': perspective } = params
+      const { 'sanity-preview-secret': secret = '', 'sanity-preview-pathname': pathname = '/', 'sanity-preview-perspective': perspective = 'published' } = params
 
-      // TODO TALK TO CHRIS ABOUT IF THIS IS ALLOWED SINCE SECRET CAN BE SEEN BY USER (BUT TOKEN CAN'T) -- HOW LONG DOES SECRET LAST? 
-      // I think it's fine because its behind login
       try {
-        const response = await fetch(`${BASE_URL}/preview-mode/validate`, {
+        // If you host your service outside of expo, replace BASE_URL with the domain for that lambda, GCP function, etc.
+        const response = await fetch(`${BASE_URL}/api/validate`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -32,10 +32,9 @@ export default function EnablePresentation() {
           throw new Error('Failed to validate preview mode');
         }
 
-        const { redirectTo } = await response.json();
-        
-        
-        router.replace(redirectTo);
+        const responseBody = await response.json();
+        await setSession({secret, pathname, perspective})        
+        router.push(responseBody.redirectTo);
       } catch (error) {
         console.error('Preview mode validation error:', error);
       }
