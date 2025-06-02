@@ -1,10 +1,8 @@
 // app/components/SanityVisualEditing.tsx
 
+import { createSanityClient, useLiveMode } from '@/data/sanity';
 import { isWeb } from '@/utils/preview';
 import { enableVisualEditing } from '@sanity/visual-editing';
-// import { VisualEditing } from '@sanity/visual-editing/react';
-import { createSanityClient, useLiveMode } from '@/data/sanity';
-// import { useSanityHooks } from '@/hooks/useSanityHooks';
 import { useContext, useEffect } from 'react';
 import TokenContext from './TokenContext';
 
