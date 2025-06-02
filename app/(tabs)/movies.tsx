@@ -4,16 +4,19 @@ import { Image } from 'react-native';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-// import { useSanityHooks } from '@/hooks/useSanityHooks';
 import { urlFor } from '@/utils/image_url';
 import { documentPageStyles as styles } from '@/utils/styles';
 // import { createDataAttribute } from '@sanity/visual-editing/react';
-import { useQuery } from '@/data/sanity';
+import TokenContext from '@/components/TokenContext';
+import { createSanityClient, useQuery } from '@/data/sanity';
+import { useContext } from 'react';
 import { Movie } from '../types/documents';
 
 export default function MoviesScreen() {
   const query = groq`*[_type == "movie"]| order(title asc) { _id, _type, _key, title, slug { current }, poster { asset -> { url } } } `
-  const {data} = useQuery<Movie[]>(query)
+  const token = useContext(TokenContext) as string
+
+  const {data} = useQuery<Movie[]>(query, {client: createSanityClient({token})})
 
   if (!data) {
     return <ThemedText>Loading...</ThemedText>

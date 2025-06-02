@@ -1,6 +1,6 @@
 import { ThemedText } from "@/components/ThemedText";
-import { destroySession } from "@/utils/preview";
-import {useRouter } from "expo-router";
+import { destroyWebSession, isWeb } from "@/utils/preview";
+import { useRouter } from "expo-router";
 import { useEffect } from "react";
 import { ActivityIndicator, View } from 'react-native';
 
@@ -10,10 +10,14 @@ export default function DisablePresentation() {
     const router = useRouter();
     useEffect(() => {
       const disablePreview = async () => {
-        await destroySession()
+        if(!isWeb()) {
+          return null
+        }
+        await destroyWebSession()
         router.replace('/')
       };
   
+      
       disablePreview()
     }, []);
   

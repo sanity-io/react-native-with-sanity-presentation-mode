@@ -4,16 +4,17 @@ import { Image } from 'react-native';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-// import { useSanityHooks } from '@/hooks/useSanityHooks';
-import { useQuery } from '@/data/sanity';
+import TokenContext from '@/components/TokenContext';
+import { createSanityClient, useQuery } from '@/data/sanity';
 import { documentPageStyles as styles } from '@/utils/styles';
+import { useContext } from 'react';
 import { Person } from '../types/documents';
 
 export default function PeopleScreen() {
 
   const query = groq`*[_type == "person"]| order(title asc) { _id, name, slug { current }, image { asset -> { url } } } `
-  const {data} = useQuery<Person[]>(query)
-
+  const token = useContext(TokenContext) as string
+  const {data} = useQuery<Person[]>(query, {client: createSanityClient({token})})
 
   if (!data) {
     return <ThemedText>Loading...</ThemedText>

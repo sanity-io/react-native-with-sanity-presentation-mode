@@ -1,7 +1,7 @@
 import SanityPreviewParams from '@/app/types/preview';
 import { ThemedText } from '@/components/ThemedText';
 import { BASE_URL } from '@/constants';
-import { setSession } from '@/utils/preview';
+import { isWeb, setWebSession } from '@/utils/preview';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect } from 'react';
 import { ActivityIndicator, View } from 'react-native';
@@ -12,10 +12,13 @@ export default function EnablePresentation() {
 
   useEffect(() => {
     const validateAndEnablePreview = async () => {
+      if(!isWeb()) {
+        return null
+      }
       const { 'sanity-preview-secret': secret = '', 'sanity-preview-pathname': pathname = '/', 'sanity-preview-perspective': perspective = 'published' } = params
 
       try {
-        // If you host your service outside of expo, replace BASE_URL with the domain for that lambda, GCP function, etc.
+        // If you deploy your service using something besides a hosted Expo API Route, replace BASE_URL with the domain for that lambda, GCP function, etc.
         const response = await fetch(`${BASE_URL}/api/validate`, {
           method: 'POST',
           headers: {
@@ -33,7 +36,8 @@ export default function EnablePresentation() {
         }
 
         const responseBody = await response.json();
-        await setSession({secret, pathname, perspective})        
+        await setWebSession({secret, pathname, perspective})        
+
         router.push(responseBody.redirectTo);
       } catch (error) {
         console.error('Preview mode validation error:', error);

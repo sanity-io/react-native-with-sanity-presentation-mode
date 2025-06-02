@@ -10,8 +10,8 @@ import { validatePreviewUrl } from "@sanity/preview-url-secret";
 
 export async function POST(request: Request) {
     const { PRIVATE_SANITY_VIEWER_TOKEN: token } = process.env;
-
     const { secret, pathname, perspective } = await request.json();
+
     if (!secret) {
         throw new Error("Preview mode missing token");
       }
