@@ -1,5 +1,6 @@
 // sanity.js
 import { SANITY_DATASET, SANITY_PROJECT_ID, SANITY_STUDIO_URL } from '@/constants';
+import { isWeb } from '@/utils/preview';
 import { ClientPerspective, createClient } from '@sanity/client';
 import { createQueryStore } from '@sanity/react-loader';
 
@@ -16,5 +17,10 @@ export const createSanityClient = (config: {token?: string, perspective?: Client
   },
 })
 
-export const {useQuery, useLiveMode} = createQueryStore({ client: false, ssr: true })
+const queryStore = createQueryStore({ client: false, ssr: true })
+
+const useLiveMode = isWeb() ? queryStore.useLiveMode : () => null
+const useQuery = queryStore.useQuery
+
+export { useLiveMode, useQuery };
 
