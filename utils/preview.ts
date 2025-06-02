@@ -1,6 +1,6 @@
 // app/sanity/preview.ts
 
-import { SANITY_PROJECT_ID } from '@/constants';
+import { SANITY_PROJECT_ID, SANITY_STUDIO_URL } from '@/constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import type { FilteredResponseQueryOptions } from "@sanity/client";
 import { Platform } from 'react-native';
@@ -45,8 +45,11 @@ const destroySession = async () => {
 function getQueryOptions(token: string | undefined): FilteredResponseQueryOptions {
   return !!token
       ? {
-          perspective: "previewDrafts",
-          stega: true,
+          perspective: "drafts",
+          stega: {
+            enabled: true,
+            studioUrl: SANITY_STUDIO_URL,
+          },
           token,
         }
       : {
@@ -55,5 +58,8 @@ function getQueryOptions(token: string | undefined): FilteredResponseQueryOption
         }
 }
 
-export { destroySession, getQueryOptions, getSession, getWebOnlySession, setSession };
+
+function isWeb() {return Platform.OS === 'web' && !!getWebOnlySession()};
+
+export { destroySession, getQueryOptions, getSession, getWebOnlySession, isWeb, setSession };
 

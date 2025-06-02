@@ -1,70 +1,54 @@
-import { useEffect, useState } from 'react';
-import { Image, StyleSheet } from 'react-native';
+import groq from 'groq';
+import { Image } from 'react-native';
 
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import { createSanityClient } from '@/data/sanity';
-import { getQueryOptions, getSession } from '@/utils/preview';
+// import { useSanityHooks } from '@/hooks/useSanityHooks';
+import { urlFor } from '@/utils/image_url';
+import { documentPageStyles as styles } from '@/utils/styles';
+// import { createDataAttribute } from '@sanity/visual-editing/react';
+import { useQuery } from '@/data/sanity';
+import { Movie } from '../types/documents';
 
 export default function MoviesScreen() {
-  const [data, setData] = useState<{title: string, slug: {current: string}, poster: {asset: {url: string}}}[]>([]);
+  const query = groq`*[_type == "movie"]| order(title asc) { _id, _type, _key, title, slug { current }, poster { asset -> { url } } } `
+  const {data} = useQuery<Movie[]>(query)
 
-  useEffect(() => {
-    const  fetchData = async () => {
-      let token = undefined;
-      const session = await getSession(); 
-      if(session){
-        const result = await fetch('/api/validate', {
-          method: 'POST',
-          body: JSON.stringify(session)
-        })
-        const body = await result.json();
-        token = body.token;
-      }
-
-      
-      const client = createSanityClient({token});
-      const queryOptions = getQueryOptions(token);
-      const data = await client.fetch(`*[_type == "movie"]| order(title asc) { _id, title, slug { current }, poster { asset -> { url } } } `, {}, queryOptions)
-      setData(data)
-    }
-
-    fetchData();
-  }, []);
-
-  if(!data){
+  if (!data) {
     return <ThemedText>Loading...</ThemedText>
   }
-  const headerImage = data[0]?.poster?.asset?.url
 
   return (
-      <ParallaxScrollView
-        headerImage={<Image source={{ uri: headerImage }} style={styles?.poster} />}
-        headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      >
-        <ThemedView style={styles.titleContainer}>
-          <ThemedText type="title">Movies:</ThemedText>
-        </ThemedView>
-        { data?.map((movie: any) => (<ThemedText key={movie.slug.current}>{movie.title}</ThemedText>)) }    
-      </ParallaxScrollView>
-  
+    <ParallaxScrollView
+      headerImage={<Image source={require('@/assets/images/movies.jpg')} style={styles.headerImage} />}
+      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
+    >
+      <ThemedView style={styles.titleContainer}>
+        <ThemedText type="title">Movies:</ThemedText>
+      </ThemedView>
+      {data?.map((movie: any) => {
+
+          const {_id, _type, _key, title, slug, poster} = movie
+          // const attr = createDataAttribute({ 
+          //   id: _id,
+          //   type: _type,
+          //   path: 'movies'
+          // })
+
+
+
+          return (<ThemedView key={slug.current} style={styles.elementContainer}>
+            <Image 
+            // data-sanity={attr(`movies[_key=="${_key}"]`).toString()}
+            // src={urlFor(poster).url() } style={styles.image} />
+            source={{uri: urlFor(poster).url() }} style={styles.image} />
+            <ThemedText type="default">{title}</ThemedText>
+          </ThemedView>)
+        }
+      )}
+    </ParallaxScrollView>
+
   );
 }
 
-const styles = StyleSheet.create({
-  titleContainer: {
-    
-    flexDirection: 'column',
-    alignItems: 'center',
-    gap: 10
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  poster: {
-    width: '100%',
-    height: '100%',
-  },
-});

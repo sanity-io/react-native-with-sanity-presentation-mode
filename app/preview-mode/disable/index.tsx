@@ -1,19 +1,15 @@
-import SanityPreviewParams from '@/app/types/preview';
 import { ThemedText } from "@/components/ThemedText";
 import { destroySession } from "@/utils/preview";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import {useRouter } from "expo-router";
 import { useEffect } from "react";
 import { ActivityIndicator, View } from 'react-native';
 
-
+// This helper component is currently unused, but is included for reference -- if you use it,
+// update the routing logic to something more robust than just "go to home page".
 export default function DisablePresentation() {
     const router = useRouter();
-    const params = useLocalSearchParams() as SanityPreviewParams;
-
-
     useEffect(() => {
       const disablePreview = async () => {
-        console.log('EXITING PREVIEW MODE', {params})
         await destroySession()
         router.replace('/')
       };
