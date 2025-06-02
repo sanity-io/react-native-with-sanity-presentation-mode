@@ -18,8 +18,6 @@ export default function SanityVisualEditing() {
     const disable = isWeb() ? enableVisualEditing({
       zIndex: 1000,
     }) : () => null
-
-
     return () => disable()
   }, [])
 

@@ -7,16 +7,12 @@ import { ThemedView } from '@/components/ThemedView';
 import { urlFor } from '@/utils/image_url';
 import { documentPageStyles as styles } from '@/utils/styles';
 // import { createDataAttribute } from '@sanity/visual-editing/react';
-import TokenContext from '@/components/TokenContext';
-import { createSanityClient, useQuery } from '@/data/sanity';
-import { useContext } from 'react';
+import { useQuery } from '@/data/sanity';
 import { Movie } from '../types/documents';
 
 export default function MoviesScreen() {
   const query = groq`*[_type == "movie"]| order(title asc) { _id, _type, _key, title, slug { current }, poster { asset -> { url } } } `
-  const token = useContext(TokenContext) as string
-
-  const {data} = useQuery<Movie[]>(query, {client: createSanityClient({token})})
+  const {data} = useQuery<Movie[]>(query)
 
   if (!data) {
     return <ThemedText>Loading...</ThemedText>
