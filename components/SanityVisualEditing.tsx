@@ -16,22 +16,22 @@ export default function SanityVisualEditing() {
   
   useEffect(() => {
     const disable = isIframe() ? enableVisualEditing({
-      // history: {
-      //   subscribe: (navigate) => {
-      //     // We navigate to Expo Router's current pathname.
-      //     navigate({
-      //       type: 'push',
-      //       url: pathname,
-      //     })
+      history: {
+        subscribe: (navigate) => {
+          // We navigate to Expo Router's current pathname.
+          navigate({
+            type: 'push',
+            url: pathname,
+          })
 
-      //     // Return cleanup function
-      //     return () => {}
-      //   },
-      //   update: (u: any) => {
-      //     // This doesn't seem to get called in the context of Expo/React Native.
-      //     console.log('UPDATE', u)
-      //   }
-      // },
+          // Return cleanup function
+          return () => {}
+        },
+        update: (u: any) => {
+          // This doesn't seem to get called in the context of Expo/React Native.
+          console.log('UPDATE', u)
+        }
+      },
       zIndex: 1000,
     }) : () => null
     return () => disable()
