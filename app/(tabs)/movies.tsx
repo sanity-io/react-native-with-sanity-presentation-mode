@@ -6,8 +6,9 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useQuery } from '@/data/sanity';
 import { urlFor } from '@/utils/image_url';
+import { isIframe } from '@/utils/preview';
 import { documentPageStyles as styles } from '@/utils/styles';
-// import { createDataAttribute } from "@sanity/visual-editing";
+import { createDataAttribute } from "@sanity/visual-editing";
 
 type Movie = { title: string, slug: { current: string }, poster: { asset: { url: string } } }
 
@@ -30,20 +31,23 @@ export default function MoviesScreen() {
       </ThemedView>
       {data?.map((movie: any) => {
         const { _id, _type, title, slug, poster } = movie
-        // const attr = createDataAttribute({
-        //   id: _id,
-        //   type: _type,
-        //   path: 'poster'
-        // })
+        const attr = isIframe() ? createDataAttribute({
+          id: _id,
+          type: _type,
+          path: 'poster'
+        }) : ''
 
         return (
           <ThemedView key={slug.current} style={styles.elementContainer}>
-            {/* <Fragment data-sanity={attr.toString()}> */}
+            <ThemedView   
+          >
               <Image
+                // @ts-expect-error The react-native-web TS types haven't been updated to support dataSet.
+                dataSet={{sanity: attr.toString()}}
                 source={{ uri: urlFor(poster).url() }}
                 style={styles.image}
               />
-            {/* </Fragment> */}
+            </ThemedView>
             <ThemedText type="default">{title}</ThemedText>
           </ThemedView>)
       }
