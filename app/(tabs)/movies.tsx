@@ -4,15 +4,17 @@ import { Image } from 'react-native';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { useQuery } from '@/data/sanity';
 import { urlFor } from '@/utils/image_url';
 import { documentPageStyles as styles } from '@/utils/styles';
-// import { createDataAttribute } from '@sanity/visual-editing/react';
-import { useQuery } from '@/data/sanity';
-import { Movie } from '../types/documents';
+
+type Movie = {title: string, slug: {current: string}, poster: {asset: {url: string}}}
 
 export default function MoviesScreen() {
-  const query = groq`*[_type == "movie"]| order(title asc) { _id, _type, _key, title, slug { current }, poster { asset -> { url } } } `
-  const {data} = useQuery<Movie[]>(query)
+  const query = groq`*[_type == "movie"]| order(title asc) { _id, _type, _key, title, slug { current }, poster { ..., asset -> { url } } } `
+  const {data, encodeDataAttribute} = useQuery<Movie[]>(query)
+
+  console.log('MOVIES', {data})
 
   if (!data) {
     return <ThemedText>Loading...</ThemedText>
@@ -27,27 +29,20 @@ export default function MoviesScreen() {
         <ThemedText type="title">Movies:</ThemedText>
       </ThemedView>
       {data?.map((movie: any) => {
-
-          const {_id, _type, _key, title, slug, poster} = movie
-          // const attr = createDataAttribute({ 
-          //   id: _id,
-          //   type: _type,
-          //   path: 'movies'
-          // })
-
-
-
-          return (<ThemedView key={slug.current} style={styles.elementContainer}>
+          const {_id, _type, title, slug, poster} = movie
+          return (
+          <ThemedView key={slug.current} style={styles.elementContainer}>
+            <ThemedView>
             <Image 
-            // data-sanity={attr(`movies[_key=="${_key}"]`).toString()}
-            // src={urlFor(poster).url() } style={styles.image} />
-            source={{uri: urlFor(poster).url() }} style={styles.image} />
+              source={{uri: urlFor(poster).url() }} 
+              style={styles.image}
+              />
+              </ThemedView>
             <ThemedText type="default">{title}</ThemedText>
           </ThemedView>)
         }
       )}
     </ParallaxScrollView>
-
   );
 }
 

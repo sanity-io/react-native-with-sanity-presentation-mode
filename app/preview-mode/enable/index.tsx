@@ -1,10 +1,15 @@
-import SanityPreviewParams from '@/app/types/preview';
 import { ThemedText } from '@/components/ThemedText';
 import { BASE_URL } from '@/constants';
 import { isWeb, setWebSession } from '@/utils/preview';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect } from 'react';
 import { ActivityIndicator, View } from 'react-native';
+
+type SanityPreviewParams = {
+  'sanity-preview-secret'?: string;
+  'sanity-preview-pathname'?: string;
+  'sanity-preview-perspective'?: string;
+} 
 
 export default function EnablePresentation() {
   const router = useRouter();

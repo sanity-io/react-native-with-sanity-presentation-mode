@@ -6,7 +6,8 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useQuery } from '@/data/sanity';
 import { documentPageStyles as styles } from '@/utils/styles';
-import { Person } from '../types/documents';
+
+type Person = {name: string, slug: {current: string}, image: {asset: {url: string}}}
 
 export default function PeopleScreen() {
 

@@ -1,9 +1,9 @@
 import { Image, StyleSheet } from 'react-native';
 
 import ParallaxScrollView from '@/components/ParallaxScrollView';
+import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Link } from 'expo-router';
-import { ThemedText } from '@/components/ThemedText';
 
 export default function HomeScreen() {
   return (

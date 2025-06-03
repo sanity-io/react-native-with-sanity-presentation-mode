@@ -52,7 +52,6 @@ export default function RootLayout() {
 
   const tokenChecked = !session || session && checkedSession
 
-
   if (!loaded || !tokenChecked) {
     // Async font loading only occurs in development.
     return null;
