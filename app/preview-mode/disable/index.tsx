@@ -13,7 +13,7 @@ export default function DisablePresentation() {
         if(!isWeb()) {
           return null
         }
-        await destroyWebSession()
+        destroyWebSession()
         router.replace('/')
       };
   

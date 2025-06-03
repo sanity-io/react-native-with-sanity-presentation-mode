@@ -7,12 +7,14 @@ import { ThemedView } from '@/components/ThemedView';
 import { useQuery } from '@/data/sanity';
 import { urlFor } from '@/utils/image_url';
 import { documentPageStyles as styles } from '@/utils/styles';
+// import { createDataAttribute } from "@sanity/visual-editing";
 
-type Movie = {title: string, slug: {current: string}, poster: {asset: {url: string}}}
+type Movie = { title: string, slug: { current: string }, poster: { asset: { url: string } } }
 
 export default function MoviesScreen() {
-  const query = groq`*[_type == "movie"]| order(title asc) { _id, _type, _key, title, slug { current }, poster { ..., asset -> { url } } } `
-  const {data, encodeDataAttribute} = useQuery<Movie[]>(query)
+  const query = groq`*[_type == "movie"]| order(title asc) { _id, _type, _key, title, slug { current }, poster { ..., asset -> { url } }, ...} `
+  const { data } = useQuery<Movie[]>(query)
+
 
   if (!data) {
     return <ThemedText>Loading...</ThemedText>
@@ -27,18 +29,24 @@ export default function MoviesScreen() {
         <ThemedText type="title">Movies:</ThemedText>
       </ThemedView>
       {data?.map((movie: any) => {
-          const {_id, _type, title, slug, poster} = movie
-          return (
+        const { _id, _type, title, slug, poster } = movie
+        // const attr = createDataAttribute({
+        //   id: _id,
+        //   type: _type,
+        //   path: 'poster'
+        // })
+
+        return (
           <ThemedView key={slug.current} style={styles.elementContainer}>
-            <ThemedView>
-            <Image 
-              source={{uri: urlFor(poster).url() }} 
-              style={styles.image}
+            {/* <Fragment data-sanity={attr.toString()}> */}
+              <Image
+                source={{ uri: urlFor(poster).url() }}
+                style={styles.image}
               />
-              </ThemedView>
+            {/* </Fragment> */}
             <ThemedText type="default">{title}</ThemedText>
           </ThemedView>)
-        }
+      }
       )}
     </ParallaxScrollView>
   );

@@ -41,7 +41,7 @@ export default function EnablePresentation() {
         }
 
         const responseBody = await response.json();
-        await setWebSession({secret, pathname, perspective})        
+        setWebSession({secret, pathname, perspective})        
 
         router.push(responseBody.redirectTo);
       } catch (error) {

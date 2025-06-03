@@ -1,7 +1,7 @@
 import SanityVisualEditing from '@/components/SanityVisualEditing';
-import TokenContext from '@/components/TokenContext';
 import { useColorScheme } from '@/hooks/useColorScheme';
-import { getWebSession, isWeb } from '@/utils/preview';
+import { useAppStore } from '@/store/app';
+import { getWebSession, isIframe } from '@/utils/preview';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
@@ -15,14 +15,15 @@ export default function RootLayout() {
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   });
-  const session = isWeb() ? getWebSession() : null
-  const [token, setToken] = useState('');
+  const session = isIframe() ? getWebSession() : null
+  const { setToken } = useAppStore();
   const [checkedSession, setCheckedSession] = useState(false);
 
 
   useEffect(() => {
     const setContext = async () => {
-      let token = undefined;
+
+      let token = '';
       try {
         const secret = session?.secret || ''
         const pathname = session?.pathname || ''
@@ -38,7 +39,10 @@ export default function RootLayout() {
         const body = await result.json();
         token = body.token;
         setToken(token)
+
       }
+
+
       } catch (e) {
         console.error(e)
         throw e
@@ -54,12 +58,12 @@ export default function RootLayout() {
   const tokenChecked = !session || session && checkedSession
 
   if (!loaded || !tokenChecked) {
-    // Async font loading only occurs in development.
+    // I want to set up the initial state of the app before loading
+    // any components, so I can use token, mode, etc.
     return null;
   }
 
   return (
-    <TokenContext.Provider value={token}>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
@@ -68,6 +72,5 @@ export default function RootLayout() {
         <StatusBar style="auto" />
         <SanityVisualEditing />
       </ThemeProvider>
-    </TokenContext.Provider>
   );
 }

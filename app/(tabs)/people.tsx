@@ -10,7 +10,6 @@ import { documentPageStyles as styles } from '@/utils/styles';
 type Person = {name: string, slug: {current: string}, image: {asset: {url: string}}}
 
 export default function PeopleScreen() {
-
   const query = groq`*[_type == "person"]| order(title asc) { _id, name, slug { current }, image { asset -> { url } } } `
   const {data} = useQuery<Person[]>(query)
 
