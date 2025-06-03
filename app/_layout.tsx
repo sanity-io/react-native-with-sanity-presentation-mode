@@ -1,3 +1,4 @@
+import PresentationModeContext from '@/components/PresentationModeContext';
 import SanityVisualEditing from '@/components/SanityVisualEditing';
 import TokenContext from '@/components/TokenContext';
 import { useColorScheme } from '@/hooks/useColorScheme';
@@ -17,7 +18,18 @@ export default function RootLayout() {
   });
   const session = isWeb() ? getWebSession() : null
   const [token, setToken] = useState('');
+  const [isPresentationMode, setIsPresentationMode] = useState(false);
+  const [checkedSearchParams, setCheckedSearchParams] = useState(false);
   const [checkedSession, setCheckedSession] = useState(false);
+
+  useEffect(() => {
+    if (isWeb()) {
+      const urlParams = new URLSearchParams(window.location.search);
+      setIsPresentationMode(urlParams.get('mode') === 'presentation');
+    }
+    setCheckedSearchParams(true);
+  }, []);
+  
 
   useEffect(() => {
     const setContext = async () => {
@@ -52,13 +64,14 @@ export default function RootLayout() {
 
   const tokenChecked = !session || session && checkedSession
 
-  if (!loaded || !tokenChecked) {
+  if (!loaded || !tokenChecked || !checkedSearchParams) {
     // Async font loading only occurs in development.
     return null;
   }
 
   return (
     <TokenContext.Provider value={token}>
+    <PresentationModeContext.Provider value={isPresentationMode}>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
@@ -67,6 +80,7 @@ export default function RootLayout() {
         <StatusBar style="auto" />
         <SanityVisualEditing />
       </ThemeProvider>
+      </PresentationModeContext.Provider>
     </TokenContext.Provider>
   );
 }

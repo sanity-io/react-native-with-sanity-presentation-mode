@@ -1,5 +1,5 @@
 import groq from 'groq';
-import { Image } from 'react-native';
+import { Image, Platform } from 'react-native';
 
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
@@ -10,11 +10,17 @@ import { documentPageStyles as styles } from '@/utils/styles';
 
 type Movie = {title: string, slug: {current: string}, poster: {asset: {url: string}}}
 
+const isPresentationMode = () => {
+  if (Platform.OS === 'web') {
+    const searchParams = new URLSearchParams(window.location.search);
+    return searchParams.get('mode') === 'presentation';
+  }
+  return false;
+};
+
 export default function MoviesScreen() {
   const query = groq`*[_type == "movie"]| order(title asc) { _id, _type, _key, title, slug { current }, poster { ..., asset -> { url } } } `
   const {data, encodeDataAttribute} = useQuery<Movie[]>(query)
-
-  console.log('MOVIES', {data})
 
   if (!data) {
     return <ThemedText>Loading...</ThemedText>

@@ -11,11 +11,12 @@ This project is intended to provide a starting point for development of React Na
 previewUrl: {
         origin: <base_url_of_this_app_localhost_or_deployed>, <--- replace with actual URL
         previewMode: {
-          enable: '/preview-mode/enable',
-          disable: '/preview-mode/disable',
+          enable: '/preview-mode/enable?mode=presentation',
+          disable: '/preview-mode/disable?mode=presentation',
         },
       },
 ```
+The use of `mode=presentation` is not standard to the Presentation plugin, but it allows us to be able to differentiate between the react native webpage loaded directly in the browser vs inside the Sanity Studio (see the main _layout.tsx)
 
 Additionally, in order for the queries to succeed that are used for the example pages `"movies"` and `"people"`, it is assumed that you have done the following steps: 
 1. Run `sanity init` in some repo (this or another, depending on where you want to manage your studio config)

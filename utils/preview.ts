@@ -6,6 +6,16 @@ import { Platform } from 'react-native';
 
 const isWeb = () => Platform.OS === 'web'
 
+const isPresentationMode = () => {
+  if(isWeb()) {
+    // If you open the react native app in a browser directly, it will have access to the window and localstorage objects
+    // In presentation mode, it does not (unsure why -- maybe its in an iframe?)
+    return (typeof window === 'undefined' && typeof localStorage === 'undefined')    // return items['mode'] === 'presentation'
+  }
+
+  return false
+}
+
 const getWebSession = () => {
   if (!isWeb()) {
     return null
@@ -54,5 +64,5 @@ const getClientOptions = (token: string | undefined): FilteredResponseQueryOptio
 
 
 
-export { destroyWebSession, getClientOptions, getWebSession, isWeb, setWebSession };
+export { destroyWebSession, getClientOptions, getWebSession, isPresentationMode, isWeb, setWebSession };
 
