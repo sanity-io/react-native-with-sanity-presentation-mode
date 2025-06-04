@@ -3,6 +3,7 @@ import { Image, StyleSheet } from 'react-native';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { sharedStyles } from '@/utils/styles';
 import { Link } from 'expo-router';
 
 export default function HomeScreen() {
@@ -23,8 +24,8 @@ export default function HomeScreen() {
 
           <ThemedText type="default">If you are in the Sanity studio in a web browser and have correctly configured the presentation plugin, in the Presentation view you will see blue hover overlays for 
             each Sanity field, which can be clicked to jump right to the editing input for that field.</ThemedText>
-          <Link style={styles.link} href="/movies">Movies</Link>
-          <Link style={styles.link} href="/people">People</Link>
+          <Link style={sharedStyles.link} href="/movies">Movies</Link>
+          <Link style={sharedStyles.link} href="/people">People</Link>
         </ThemedView>
       </ParallaxScrollView>
 
@@ -42,12 +43,5 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 300,
     resizeMode: 'cover',
-  },
-  link: {
-    color: 'green',
-    textDecorationLine: 'underline',
-    fontSize: 20,
-    fontWeight: 'bold',
-    alignSelf: 'flex-end',
   },
 });

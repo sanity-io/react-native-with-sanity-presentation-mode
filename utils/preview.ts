@@ -6,8 +6,6 @@ import { Platform } from 'react-native';
 
 const isWeb = () => Platform.OS === 'web'
 
-export const hasWindow = typeof window !== 'undefined';
-
 const isIframe = () => {
   if(isWeb()) {
     if( globalThis.self !== globalThis.top){

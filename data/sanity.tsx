@@ -8,7 +8,7 @@ import { createQueryStore } from '@sanity/react-loader';
 export const createSanityClient = (config: {token?: string, perspective?: ClientPerspective} = { perspective: 'published' }) => createClient({
   projectId: SANITY_PROJECT_ID,
   dataset: SANITY_DATASET,
-  useCdn: false,
+  useCdn: true,
   apiVersion: '2025-05-30',
   ...config,
   stega: {

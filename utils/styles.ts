@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-export const documentPageStyles = StyleSheet.create({
+export const sharedStyles = StyleSheet.create({
     titleContainer: {
       flexDirection: 'column',
       alignItems: 'center',
@@ -15,6 +15,12 @@ export const documentPageStyles = StyleSheet.create({
       alignItems: 'center',
       gap: 10,
     },
+    centeredFlexContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: 10,
+    },
     headerImage: {
       width: '100%',
       height: '100%',
@@ -22,6 +28,17 @@ export const documentPageStyles = StyleSheet.create({
     image: {
       width: 50,
       height: 50,
-    }
+    },
+    fullWidthImage: {
+      width: "100%",
+      height: "100%",
+    },
+    
+    link: {
+      color: 'green',
+      textDecorationLine: 'underline',
+      fontSize: 18,
+      fontWeight: 'bold',
+      alignSelf: 'flex-end',
+    },
   });
-  

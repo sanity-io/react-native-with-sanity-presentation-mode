@@ -5,12 +5,12 @@ import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useQuery } from '@/data/sanity';
+import { Movie } from '@/types/sanity';
 import { urlFor } from '@/utils/image_url';
 import { isIframe } from '@/utils/preview';
-import { documentPageStyles as styles } from '@/utils/styles';
+import { sharedStyles, sharedStyles as styles } from '@/utils/styles';
 import { createDataAttribute } from "@sanity/visual-editing";
-
-type Movie = { title: string, slug: { current: string }, poster: { asset: { url: string } } }
+import { Link } from 'expo-router';
 
 export default function MoviesScreen() {
   const query = groq`*[_type == "movie"]| order(title asc) { _id, _type, _key, title, slug { current }, poster { ..., asset -> { url } }, ...} `
@@ -29,7 +29,7 @@ export default function MoviesScreen() {
       <ThemedView style={styles.titleContainer}>
         <ThemedText type="title">Movies:</ThemedText>
       </ThemedView>
-      {data?.map((movie: any) => {
+      {data?.map((movie: Movie) => {
         const { _id, _type, title, slug, poster } = movie
         const attr = isIframe() ? createDataAttribute({
           id: _id,
@@ -39,16 +39,25 @@ export default function MoviesScreen() {
 
         return (
           <ThemedView key={slug.current} style={styles.elementContainer}>
-            <ThemedView   
-          >
+            <ThemedView
+            >
               <Image
                 // @ts-expect-error The react-native-web TS types haven't been updated to support dataSet.
-                dataSet={{sanity: attr.toString()}}
+                dataSet={{ sanity: attr.toString() }}
                 source={{ uri: urlFor(poster).url() }}
                 style={styles.image}
               />
             </ThemedView>
-            <ThemedText type="default">{title}</ThemedText>
+            <ThemedText type="default">
+              <Link 
+              style={sharedStyles.link}
+              href={{
+                pathname: '/movie/[movie_slug]',
+                params: { movie_slug: slug.current }
+              }}>
+                {title}
+              </Link>
+            </ThemedText>
           </ThemedView>)
       }
       )}
