@@ -6,11 +6,13 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useQuery } from '@/data/sanity';
 import { Person } from '@/types/sanity';
+import { isIframe } from '@/utils/preview';
 import { sharedStyles, sharedStyles as styles } from '@/utils/styles';
+import { createDataAttribute } from "@sanity/visual-editing";
 import { Link } from 'expo-router';
 
 export default function PeopleScreen() {
-  const query = groq`*[_type == "person"]| order(title asc) { _id, name, slug { current }, image { asset -> { url } } } `
+  const query = groq`*[_type == "person"]| order(title asc) { _id, _type, _key, name, slug { current }, image { asset -> { url } } } `
   const {data} = useQuery<Person[]>(query)
 
   if (!data) {
@@ -27,10 +29,21 @@ export default function PeopleScreen() {
         <ThemedText type="title">People:</ThemedText>
       </ThemedView>
       {data?.map((person: Person) => {
-        const { image, slug, name } = person
+
+        console.log({createDataAttribute})
+
+        const { _id, _type, image, slug, name } = person
+        const attr = isIframe() ? createDataAttribute({
+          id: _id,
+          type: _type,
+          path: 'image'
+        }) : ''
 
         return (<ThemedView key={slug.current} style={styles.elementContainer}>
-          <Image source={{ uri: image?.asset?.url }} style={styles.image} />
+          <Image 
+          // @ts-expect-error The react-native-web TS types haven't been updated to support dataSet.
+          dataSet={{ sanity: attr.toString() }}
+          source={{ uri: image?.asset?.url }} style={styles.image} />
           <ThemedText type="default">
               <Link 
               style={sharedStyles.link}
