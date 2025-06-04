@@ -2,7 +2,7 @@
 import { SANITY_PROJECT_ID, SANITY_STUDIO_URL } from '@/constants';
 import type { FilteredResponseQueryOptions } from "@sanity/client";
 import { createDataAttribute } from '@sanity/visual-editing';
-import { OptimisticReducerAction } from '@sanity/visual-editing/react';
+
 import { Platform } from 'react-native';
 
 const isWeb = () => Platform.OS === 'web'
