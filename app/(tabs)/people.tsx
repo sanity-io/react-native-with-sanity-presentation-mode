@@ -6,9 +6,8 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useQuery } from '@/data/sanity';
 import { Person } from '@/types/sanity';
-import { optionallyCreateDataAttribute } from '@/utils/preview';
+import { createDataAttributeWebOnly } from '@/utils/preview';
 import { sharedStyles, sharedStyles as styles } from '@/utils/styles';
-import { createDataAttribute } from "@sanity/visual-editing";
 import { Link } from 'expo-router';
 
 export default function PeopleScreen() {
@@ -30,7 +29,7 @@ export default function PeopleScreen() {
       </ThemedView>
       {data?.map((person: Person) => {
         const { _id, _type, image, slug, name } = person
-        const attr = optionallyCreateDataAttribute({
+        const attr = createDataAttributeWebOnly({
           id: _id,
           type: _type,
           path: 'image'

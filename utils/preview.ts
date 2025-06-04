@@ -63,10 +63,9 @@ const getClientOptions = (token: string | undefined): FilteredResponseQueryOptio
     }
 }
 
-const optionallyCreateDataAttribute = (options: {id: string, type: string, path: string}) => {
+const createDataAttributeWebOnly = (options: {id: string, type: string, path: string}) => {
   return isPresentationPluginIframe() ? createDataAttribute(options) : ''
 }
 
-
-export { destroyWebSession, getClientOptions, getWebSession, isPresentationPluginIframe, isWeb, optionallyCreateDataAttribute, setWebSession };
+export { destroyWebSession, getClientOptions, getWebSession, isPresentationPluginIframe, isWeb, createDataAttributeWebOnly, setWebSession };
 

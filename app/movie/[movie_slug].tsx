@@ -4,7 +4,7 @@ import { ThemedView } from '@/components/ThemedView';
 import { useQuery } from '@/data/sanity';
 import { CastMember, Movie, Person } from '@/types/sanity';
 import { urlFor } from '@/utils/image_url';
-import { optionallyCreateDataAttribute } from '@/utils/preview';
+import { createDataAttributeWebOnly } from '@/utils/preview';
 import { sharedStyles, sharedStyles as styles } from '@/utils/styles';
 import { PortableText } from '@portabletext/react-native';
 import { Link, useLocalSearchParams } from 'expo-router';
@@ -47,7 +47,7 @@ export default function MovieScreen() {
     dataset: SANITY_DATASET,
     baseUrl: SANITY_STUDIO_URL,
   }
-  const movieAttr = optionallyCreateDataAttribute({
+  const movieAttr = createDataAttributeWebOnly({
     ...config,
     id: _id,
     type: _type,
@@ -91,12 +91,12 @@ export default function MovieScreen() {
         // @ts-expect-error The react-native-web TS types haven't been updated to support dataSet.
         dataSet={{sanity: movieAttr.toString()}}
         style={styles.list}>
-        <ThemedText type="default">Cast</ThemedText>
+        <ThemedText type="subtitle">Cast</ThemedText>
         {castMembersWithPeople?.map((castMember) => {
           const {_key, characterName, person: { name, image }} = castMember
 
 
-          const castMemberAttr = optionallyCreateDataAttribute({
+          const castMemberAttr = createDataAttributeWebOnly({
             ...config,
             id: _id,
             type: _type,

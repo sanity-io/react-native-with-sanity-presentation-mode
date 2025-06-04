@@ -5,7 +5,7 @@
 // BECAUSE IT CAN VIEW DRAFT CONTENT (WHICH SHOULD BE SECURED EVEN IN PRIVATE DATASETS)
 
 import { BASE_URL } from "@/constants";
-import { createSanityClient } from "@/data/sanity";
+import { createSanityClient } from "@/data/client";
 import { validatePreviewUrl } from "@sanity/preview-url-secret";
 
 export async function POST(request: Request) {

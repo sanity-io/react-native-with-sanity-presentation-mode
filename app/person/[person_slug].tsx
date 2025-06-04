@@ -8,7 +8,7 @@ import { ThemedView } from '@/components/ThemedView';
 import { useQuery } from '@/data/sanity';
 import { Person } from '@/types/sanity';
 import { urlFor } from '@/utils/image_url';
-import { optionallyCreateDataAttribute } from '@/utils/preview';
+import { createDataAttributeWebOnly } from '@/utils/preview';
 import { sharedStyles, sharedStyles as styles } from '@/utils/styles';
 
 export default function PersonScreen() {
@@ -28,7 +28,7 @@ export default function PersonScreen() {
   }
 
   const { _id, _type, name, image } = data
-  const attr = optionallyCreateDataAttribute({
+  const attr = createDataAttributeWebOnly({
     id: _id,
     type: _type,
     path: 'image'

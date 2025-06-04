@@ -1,6 +1,7 @@
 // app/components/SanityVisualEditing.tsx
 
-import { createSanityClient, useLiveMode } from '@/data/sanity';
+import { createSanityClient } from '@/data/client';
+import { useLiveMode } from '@/data/sanity';
 import { useAppStore } from '@/store/app';
 import { isPresentationPluginIframe } from '@/utils/preview';
 import { enableVisualEditing } from '@sanity/visual-editing';
