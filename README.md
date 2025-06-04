@@ -5,10 +5,20 @@ This project is intended to provide a starting point for development of React Na
 
 ## Dependencies/PreWork
 
-#### IMPORTANT: This project assumes that wherever you have set up your Sanity Studio code, you have configured the "presentationTool" plugin with at least the following config: 
+#### IMPORTANT: For the easiest starting point, this repo assumes that you have set up a Sanity project/studio and used the "Movies" starter template using the bootstrapping steps below.
 
+#### Without the Sanity studio set up, the runtime of the React Native app itself shouldn't crash, but you won't see anything load on the test "movie" and "people" screens (feel free to remove them and update the nav if they are not needed, and in that case, you can set up a Sanity project/studio however you prefer and set the env file accordingly to point to that project -- see below).
+
+**BOOTSTRAP STEPS:**
+1. Run `sanity init` in some repo (preferably a separate repo but could be a folder in this repo or a monorepo etc, depending on how/where you want to manage your studio config)
+2. When that init script asks you to chose a project template, you've chosen `Movie project (schema + sample data)`
+3. When the init script asks `Add a sampling of sci-fi movies to your dataset on the hosted backend?`, you choose yes. 
+4. Make sure that in that project's "API" tab on https://manage.sanity.io, you've added the following hosts to the allowed CORS origins (WITH credentials allowed if your front end queries will pass a Sanity token, see Token Management below):  
+- `http://localhost:8081` (or whatever host/port you run the React Native app on) 
+- `http://localhost:3333` (or whatever host/port you run your Sanity Studio on)
+5. Added the sanity/presentation npm library to whichever repo and in that repo add the following config to the "plugins" section of your sanity.config.ts/js: 
 ```
-presentationTool({
+ presentationTool({
       resolve: locationResolver,
       previewUrl: {
         origin: 'http://localhost:8081',
@@ -19,8 +29,7 @@ presentationTool({
       },
     })
 ```
-Where `locationResolver` is: 
-
+where the locationResolver is defined as: 
 ```
 const locationResolver = {locations: {
   // Resolve locations using values from the matched document
@@ -61,16 +70,10 @@ const locationResolver = {locations: {
     }),
   }),
 }}
+
 ```
 
-
-Additionally, in order for the queries to succeed that are used for the example pages `"movies"` and `"people"`, it is assumed that you have done the following steps: 
-1. Run `sanity init` in some repo (this or another, depending on where you want to manage your studio config)
-2. When that init script asks you to chose a project template, you've chosen `Movie project (schema + sample data)`
-3. When the init script asks `Add a sampling of sci-fi movies to your dataset on the hosted backend?`, you choose yes. 
-
-Without these steps, the runtime of the React Native app itself shouldn't crash or have issues, but you won't see anything load on those test "movie" and "people" screens (feel free to remove them and update the nav if they are not needed).
-
+To view the source repo of the sanity studio that was used to develop this application, see this [Github Repo](https://github.com/codebravotech/react-native-with-sanity-presentation-mode-studio). Note that you could also clone and spin up this repo, but you would not have any test data configured, so you'd have to add a few test documents each of types Movie and Person.
 
 
 ## Get started
@@ -99,7 +102,17 @@ In the output, you'll find options to open the app in a
 - [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
 - [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
 
+**However, the main goal is to open the app INSIDE of Sanity Studio, so run the Sanity Studio with Presentation plugin that you set up in the steps above, visit `http://localhost:3333`, and click the Presentation tab in the studio.**
+
 You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+
+## Deploying
+Deploy the Expo app via your preferred mechanism and make sure to deploy any files containing "+api" in the name as serverless functions. In this project, those APIs are Expo API routes, but you could use AWS lambda, GCP functions, etc. The only serverless API in this project is used for session key validation (see Token Management below).
+
+Update any URLs in the Studio's project CORS origins accordingly. Any host that wants to query your project has to be allowed in those project CORS settings -- credentials need to be allowed if that host wants to pass a Sanity authorization token as part of that query (see Token Management below).
+
+## Token Management
+DO NOT STORE A SANITY TOKEN IN ANY FRONT END -- IT IS AN API KEY. A non-persistent "session" key is received as a query parameter from the Presentation plugin when it loads its configured "enable" page route. In this project, that session key is then exchanged for a token via the `api/validate` serverless expo function.
 
 ## Other Notes
 
