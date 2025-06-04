@@ -21,6 +21,11 @@ export const sharedStyles = StyleSheet.create({
       justifyContent: 'center',
       gap: 10,
     },
+    
+    list: {
+      flexDirection: 'column',
+      gap: 10,
+    },
     headerImage: {
       width: '100%',
       height: '100%',

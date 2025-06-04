@@ -6,7 +6,7 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useQuery } from '@/data/sanity';
 import { Person } from '@/types/sanity';
-import { isPresentationPluginIframe } from '@/utils/preview';
+import { optionallyCreateDataAttribute } from '@/utils/preview';
 import { sharedStyles, sharedStyles as styles } from '@/utils/styles';
 import { createDataAttribute } from "@sanity/visual-editing";
 import { Link } from 'expo-router';
@@ -29,15 +29,12 @@ export default function PeopleScreen() {
         <ThemedText type="title">People:</ThemedText>
       </ThemedView>
       {data?.map((person: Person) => {
-
-        console.log({createDataAttribute})
-
         const { _id, _type, image, slug, name } = person
-        const attr = isPresentationPluginIframe() ? createDataAttribute({
+        const attr = optionallyCreateDataAttribute({
           id: _id,
           type: _type,
           path: 'image'
-        }) : ''
+        })
 
         return (<ThemedView key={slug.current} style={styles.elementContainer}>
           <Image 

@@ -7,9 +7,8 @@ import { ThemedView } from '@/components/ThemedView';
 import { useQuery } from '@/data/sanity';
 import { Movie } from '@/types/sanity';
 import { urlFor } from '@/utils/image_url';
-import { isPresentationPluginIframe } from '@/utils/preview';
+import { optionallyCreateDataAttribute } from '@/utils/preview';
 import { sharedStyles, sharedStyles as styles } from '@/utils/styles';
-import { createDataAttribute } from "@sanity/visual-editing";
 import { Link } from 'expo-router';
 
 export default function MoviesScreen() {
@@ -31,11 +30,7 @@ export default function MoviesScreen() {
       </ThemedView>
       {data?.map((movie: Movie) => {
         const { _id, _type, title, slug, poster } = movie
-        const attr = isPresentationPluginIframe() ? createDataAttribute({
-          id: _id,
-          type: _type,
-          path: 'poster'
-        }) : ''
+        const attr = optionallyCreateDataAttribute({id: _id, type: _type, path: 'poster'})
 
         return (
           <ThemedView key={slug.current} style={styles.elementContainer}>

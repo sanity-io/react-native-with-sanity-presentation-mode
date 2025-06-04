@@ -8,9 +8,8 @@ import { ThemedView } from '@/components/ThemedView';
 import { useQuery } from '@/data/sanity';
 import { Person } from '@/types/sanity';
 import { urlFor } from '@/utils/image_url';
-import { isPresentationPluginIframe } from '@/utils/preview';
+import { optionallyCreateDataAttribute } from '@/utils/preview';
 import { sharedStyles, sharedStyles as styles } from '@/utils/styles';
-import { createDataAttribute } from "@sanity/visual-editing";
 
 export default function PersonScreen() {
   const { person_slug } = useLocalSearchParams();
@@ -20,7 +19,6 @@ export default function PersonScreen() {
     name,
     slug { current },
     image { ..., asset -> { url } },
-    bio
   }`
 
   const { data } = useQuery<Person>(query, { person_slug })
@@ -29,12 +27,12 @@ export default function PersonScreen() {
     return <ThemedText>Loading...</ThemedText>
   }
 
-  const { _id, _type, name, image, bio } = data
-  const attr = isPresentationPluginIframe() ? createDataAttribute({
+  const { _id, _type, name, image } = data
+  const attr = optionallyCreateDataAttribute({
     id: _id,
     type: _type,
     path: 'image'
-  }) : ''
+  })
 
   return (
     <ParallaxScrollView
@@ -42,7 +40,7 @@ export default function PersonScreen() {
         source={require('@/assets/images/actors.jpg')} style={styles.headerImage} />}
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
     >
-      <Link style={sharedStyles.link} href="/people">Go Back</Link>
+      <Link style={sharedStyles.link} href="/people">All People</Link>
       <ThemedView style={styles.centeredFlexContainer}>
         {image && <Image
           // @ts-expect-error The react-native-web TS types haven't been updated to support dataSet.

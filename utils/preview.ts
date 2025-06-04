@@ -1,7 +1,8 @@
 // app/sanity/preview.ts
-
 import { SANITY_PROJECT_ID, SANITY_STUDIO_URL } from '@/constants';
 import type { FilteredResponseQueryOptions } from "@sanity/client";
+import { createDataAttribute } from '@sanity/visual-editing';
+import { OptimisticReducerAction } from '@sanity/visual-editing/react';
 import { Platform } from 'react-native';
 
 const isWeb = () => Platform.OS === 'web'
@@ -62,5 +63,10 @@ const getClientOptions = (token: string | undefined): FilteredResponseQueryOptio
     }
 }
 
-export { destroyWebSession, getClientOptions, getWebSession, isPresentationPluginIframe, isWeb, setWebSession };
+const optionallyCreateDataAttribute = (options: {id: string, type: string, path: string}) => {
+  return isPresentationPluginIframe() ? createDataAttribute(options) : ''
+}
+
+
+export { destroyWebSession, getClientOptions, getWebSession, isPresentationPluginIframe, isWeb, optionallyCreateDataAttribute, setWebSession };
 

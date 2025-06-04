@@ -7,6 +7,7 @@ export type Movie = {
   slug: { current: string }, 
   poster: { asset: { url: string } },
   overview?: [PortableTextBlock] 
+  castMembers?: CastMember[];
 }
 
 export type Person = {
@@ -16,4 +17,10 @@ export type Person = {
   slug: { current: string };
   image?: { asset: { url: string } };
   bio?: [PortableTextBlock];
+} 
+
+export type CastMember = {
+  _key: string;
+  characterName: string;
+  person: { _ref: string };
 } 
