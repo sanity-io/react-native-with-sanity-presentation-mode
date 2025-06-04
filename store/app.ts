@@ -1,7 +1,5 @@
 import { create } from 'zustand'
 
-type Mode = '' | 'non_presentation' | 'presentation'
-
 interface AppState {
   // Token management
   token: string

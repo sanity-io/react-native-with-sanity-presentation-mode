@@ -17,11 +17,11 @@ export async function POST(request: Request) {
       }
   
     const clientWithToken = createSanityClient({ token });
-    const url = `${BASE_URL}/${pathname}?sanity-preview-secret=${secret}&sanity-preview-perspective=${perspective}`      
+    const url = `${BASE_URL}/${pathname}?sanity-preview-secret=${secret}&sanity-preview-perspective=${perspective}&sanity-preview-pathname=${pathname}`      
 
     const { isValid, redirectTo = "/" } = await validatePreviewUrl(
         clientWithToken,
-        url
+        url     
       );
 
     if(!isValid) {

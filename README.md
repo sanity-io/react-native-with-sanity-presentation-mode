@@ -8,15 +8,61 @@ This project is intended to provide a starting point for development of React Na
 #### IMPORTANT: This project assumes that wherever you have set up your Sanity Studio code, you have configured the "presentationTool" plugin with at least the following config: 
 
 ```
-previewUrl: {
-        origin: <base_url_of_this_app_localhost_or_deployed>, <--- replace with actual URL
+presentationTool({
+      resolve: locationResolver,
+      previewUrl: {
+        origin: 'http://localhost:8081',
         previewMode: {
-          enable: '/preview-mode/enable?mode=presentation',
-          disable: '/preview-mode/disable?mode=presentation',
+          enable: '/preview-mode/enable',
+          disable: '/preview-mode/disable',
         },
       },
+    })
 ```
-The use of `mode=presentation` is not standard to the Presentation plugin, but it allows us to be able to differentiate between the react native webpage loaded directly in the browser vs inside the Sanity Studio (see the main _layout.tsx)
+Where `locationResolver` is: 
+
+```
+const locationResolver = {locations: {
+  // Resolve locations using values from the matched document
+  movie: defineLocations({
+    select: {
+      title: 'title',
+      slug: 'slug.current',
+    },
+    resolve: (doc) => ({
+      locations: [
+        {
+          title: 'Movies Directory',
+          href: '/movies',
+        },
+        {
+          title: `Movie Page: ${doc?.title}`,
+          href: `/movie/${doc?.slug}`,
+        },
+      ],
+    }),
+  }),
+  person: defineLocations({
+    select: {
+      name: 'name',
+      slug: 'slug.current',
+    },
+    resolve: (doc) => ({
+      locations: [
+        {
+          title: 'People Directory',
+          href: '/people',
+        },
+        {
+          title: `Person Page: ${doc?.name}`,
+          href: `/person/${doc?.slug}`,
+        },
+      ],
+    }),
+  }),
+}}
+```
+
 
 Additionally, in order for the queries to succeed that are used for the example pages `"movies"` and `"people"`, it is assumed that you have done the following steps: 
 1. Run `sanity init` in some repo (this or another, depending on where you want to manage your studio config)

@@ -21,7 +21,6 @@ export default function EnablePresentation() {
         return null
       }
       const { 'sanity-preview-secret': secret = '', 'sanity-preview-pathname': pathname = '/', 'sanity-preview-perspective': perspective = 'published' } = params
-
       try {
         // If you deploy your service using something besides a hosted Expo API Route, replace BASE_URL with the domain for that lambda, GCP function, etc.
         const response = await fetch(`${BASE_URL}/api/validate`, {
@@ -45,7 +44,7 @@ export default function EnablePresentation() {
 
         router.push(responseBody.redirectTo);
       } catch (error) {
-        console.error('Preview mode validation error:', error);
+        throw new Error('Unauthorized');
       }
     };
 

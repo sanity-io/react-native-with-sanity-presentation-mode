@@ -39,7 +39,6 @@ export default function RootLayout() {
         const body = await result.json();
         token = body.token;
         setToken(token)
-
       }
 
 
