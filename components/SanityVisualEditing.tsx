@@ -2,7 +2,7 @@
 
 import { createSanityClient, useLiveMode } from '@/data/sanity';
 import { useAppStore } from '@/store/app';
-import { isIframe } from '@/utils/preview';
+import { isPresentationPluginIframe } from '@/utils/preview';
 import { enableVisualEditing } from '@sanity/visual-editing';
 import { usePathname, useRouter } from 'expo-router';
 import { useEffect } from 'react';
@@ -16,7 +16,7 @@ export default function SanityVisualEditing() {
   const router = useRouter()
   
   useEffect(() => {
-    const disable = isIframe() ? enableVisualEditing({
+    const disable = isPresentationPluginIframe() ? enableVisualEditing({
       history: {
         subscribe: (navigate) => {
           console.log('NAVIGATION EVENT:', pathname)

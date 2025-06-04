@@ -8,7 +8,7 @@ import { ThemedView } from '@/components/ThemedView';
 import { useQuery } from '@/data/sanity';
 import { Person } from '@/types/sanity';
 import { urlFor } from '@/utils/image_url';
-import { isIframe } from '@/utils/preview';
+import { isPresentationPluginIframe } from '@/utils/preview';
 import { sharedStyles, sharedStyles as styles } from '@/utils/styles';
 import { createDataAttribute } from "@sanity/visual-editing";
 
@@ -30,7 +30,7 @@ export default function PersonScreen() {
   }
 
   const { _id, _type, name, image, bio } = data
-  const attr = isIframe() ? createDataAttribute({
+  const attr = isPresentationPluginIframe() ? createDataAttribute({
     id: _id,
     type: _type,
     path: 'image'

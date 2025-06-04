@@ -1,7 +1,7 @@
 import SanityVisualEditing from '@/components/SanityVisualEditing';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { useAppStore } from '@/store/app';
-import { getWebSession, isIframe } from '@/utils/preview';
+import { getWebSession, isPresentationPluginIframe } from '@/utils/preview';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
@@ -15,7 +15,7 @@ export default function RootLayout() {
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   });
-  const session = isIframe() ? getWebSession() : null
+  const session = isPresentationPluginIframe() ? getWebSession() : null
   const { setToken } = useAppStore();
   const [checkedSession, setCheckedSession] = useState(false);
 

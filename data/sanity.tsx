@@ -1,6 +1,6 @@
 // sanity.js
 import { SANITY_DATASET, SANITY_PROJECT_ID, SANITY_STUDIO_URL } from '@/constants';
-import { isIframe } from '@/utils/preview';
+import { isPresentationPluginIframe } from '@/utils/preview';
 import { ClientPerspective, createClient } from '@sanity/client';
 import { createQueryStore } from '@sanity/react-loader';
 
@@ -17,8 +17,8 @@ export const createSanityClient = (config: {token?: string, perspective?: Client
   },
 })
 
-const queryStore = isIframe() ? createQueryStore({ client: false, ssr: true }) : createQueryStore({ client: createSanityClient(), ssr:false })
-const useLiveMode = isIframe() ? queryStore.useLiveMode : () => null
+const queryStore = isPresentationPluginIframe() ? createQueryStore({ client: false, ssr: true }) : createQueryStore({ client: createSanityClient(), ssr:false })
+const useLiveMode = isPresentationPluginIframe() ? queryStore.useLiveMode : () => null
 const useQuery = queryStore.useQuery
 
 

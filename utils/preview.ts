@@ -6,7 +6,7 @@ import { Platform } from 'react-native';
 
 const isWeb = () => Platform.OS === 'web'
 
-const isIframe = () => {
+const isPresentationPluginIframe = () => {
   if(isWeb()) {
     if( globalThis.self !== globalThis.top){
       return true
@@ -62,5 +62,5 @@ const getClientOptions = (token: string | undefined): FilteredResponseQueryOptio
     }
 }
 
-export { destroyWebSession, getClientOptions, getWebSession, isIframe, isWeb, setWebSession };
+export { destroyWebSession, getClientOptions, getWebSession, isPresentationPluginIframe, isWeb, setWebSession };
 
