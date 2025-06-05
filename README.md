@@ -107,11 +107,20 @@ In the output, you'll find options to open the app in a
 You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
 
 ## Deploying
-Make an Expo project and add the environment variables from env.example to the EAS environment variable store for your Expo project. 
+### DON'T DEPLOY WEB APP ON EXPO HOSTING -- Expo hosting adds a Content Security Policy header by default that prevents the Sanity Studio from loading the Expo web app in an iframe. Deploy instead to Vercel, Netlify, or another service that allows you to customize that header. You can/should still build your actual native device/simulator builds using Expo. 
 
-Follow Expo's hosting guide for deploying (to get the web version up) and building for iOS simulator, iOS, Android, etc depending on your use case. (This project was built for web and iOS simulator, so it should work for at least those two things). Make sure to change the projectId to your own project. 
+### Shared Setup for Native and Web App builds (app.json)
+Make sure to change the projectId in app.json to your own project's ID.
 
-Make sure to use the "server" web output in app.json so that any +api Expo routes are deployed as serverless functions). In this project, those APIs are Expo API routes, but you could change them to be in AWS lambda, GCP functions, etc if you choose. The only serverless API in this project is used for session key validation (see Token Management below).
+Make sure to use the "server" web output in app.json if you have any "+api" suffixed app files (which are for API Expo routes), so the server and client portions are built separately. In this project, the single API is an Expo API route which is only used by the web app version and which I'm deploying as a Vercel serverless function (see Web Deployments below), but you could change it to be in AWS lambda, GCP functions, etc if you choose. That API is used for session key validation (see Token Management below).
+
+### Native/Simulator Builds
+Make an Expo project in the Expo dashboard. 
+
+Follow Expo's guides building for iOS simulator, iOS, Android, etc and chosen environment (development, preview, production, etc), depending on your use case.  (This project was built successfully as a preview build for iOS simulator, so it should work for at least that use case). 
+
+### Web Deployments
+In this codebase, I've set the projet up to deploy both front end and the single API route to Vercel hosting and Vercel serverless functions respectively, and I've configured it to add a correct CSP header that allows my own sanity studio URL to load this web app in an iframe (see vercel.json). Update the CSP header rewrite in vercel.json to use your own studio URL or refactor the codebase to use a different hosting service (see warning above about Expo Hosting and Presentation mode -- incompatible at this time due to configuration constraints in Expo).
 
 Update any URLs in the Studio's project CORS origins accordingly. Any host that wants to query your project has to be allowed in those project CORS settings -- credentials need to be allowed if that host wants to pass a Sanity authorization token as part of that query (see Token Management below).
 
@@ -119,5 +128,4 @@ Update any URLs in the Studio's project CORS origins accordingly. Any host that 
 DO NOT STORE A SANITY TOKEN IN ANY FRONT END -- IT IS AN API KEY. A non-persistent "session" key is received as a query parameter from the Presentation plugin when it loads its configured "enable" page route. In this project, that session key is then exchanged for a token via the `api/validate` serverless expo function.
 
 ## Other Notes
-
 Several standard modules from Node that are part of the @sanity library but are not in the React Native runtime are shimmed using metro.config.js. Run the expo start command above with the `--clear` flag to clear the metro cache if you make additions/modifications to those shims for your own use case.
