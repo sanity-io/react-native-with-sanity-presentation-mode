@@ -1,9 +1,10 @@
+import { join } from "path";
 import { createRequestHandler } from "@expo/server/adapter/vercel";
 // import { SANITY_STUDIO_URL } from "@/constants";
 
 // Pre-compile the Expo server bundle once per cold start
 export default createRequestHandler({
-    build: require('path').join(__dirname, '../dist/server'),
+    build: join(process.cwd(), 'dist/server'),
 });
 
 // // Vercel entry point

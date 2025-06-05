@@ -1,18 +1,15 @@
   {
     "$schema": "https://openapi.vercel.sh/vercel.json",
+    "devCommand": "expo",
     "buildCommand": "expo export -p web",
-    "outputDirectory": "dist/client",
+    "outputDirectory": "dist",
     "cleanUrls": true,
     "framework": null,
     "rewrites": [
-      {
-        "source": "/api/(.*)",
-        "destination": "/api/index.ts"
-      },
-      {
-        "source": "/((?!api).*)",
-        "destination": "/"
-      }
+          {
+            "source": "/:path*",
+            "destination": "/"
+          }
     ],
     "functions": {
       "api/index.ts": {
