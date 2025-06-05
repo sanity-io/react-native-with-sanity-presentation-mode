@@ -147,6 +147,9 @@ importers:
       '@babel/core':
         specifier: ^7.25.2
         version: 7.27.4
+      '@types/node':
+        specifier: ^22.15.30
+        version: 22.15.30
       '@types/react':
         specifier: ~19.0.10
         version: 19.0.14
@@ -1288,8 +1291,8 @@ packages:
   '@types/json5@0.0.29':
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
 
-  '@types/node@22.15.29':
-    resolution: {integrity: sha512-LNdjOkUDlU1RZb8e1kOIUpN1qQUlzGkEtbVNo53vbrwDg5om6oduhm4SiUaPW5ASTXhAiP0jInWG8Qx9fVlOeQ==}
+  '@types/node@22.15.30':
+    resolution: {integrity: sha512-6Q7lr06bEHdlfplU6YRbgG1SFBdlsfNC4/lX+SkhiTs0cpJkOElmWls8PxDFv4yY/xKb8Y6SO0OmSX4wgqTZbA==}
 
   '@types/react@19.0.14':
     resolution: {integrity: sha512-ixLZ7zG7j1fM0DijL9hDArwhwcCb4vqmePgwtV0GfnkHRSCUEv4LvzarcTdhoqgyMznUx/EhoTUv31CKZzkQlw==}
@@ -5625,14 +5628,14 @@ snapshots:
     dependencies:
       '@jest/fake-timers': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 22.15.29
+      '@types/node': 22.15.30
       jest-mock: 29.7.0
 
   '@jest/fake-timers@29.7.0':
     dependencies:
       '@jest/types': 29.6.3
       '@sinonjs/fake-timers': 10.3.0
-      '@types/node': 22.15.29
+      '@types/node': 22.15.30
       jest-message-util: 29.7.0
       jest-mock: 29.7.0
       jest-util: 29.7.0
@@ -5666,7 +5669,7 @@ snapshots:
       '@jest/schemas': 29.6.3
       '@types/istanbul-lib-coverage': 2.0.6
       '@types/istanbul-reports': 3.0.4
-      '@types/node': 22.15.29
+      '@types/node': 22.15.30
       '@types/yargs': 17.0.33
       chalk: 4.1.2
 
@@ -6165,11 +6168,11 @@ snapshots:
 
   '@types/follow-redirects@1.14.4':
     dependencies:
-      '@types/node': 22.15.29
+      '@types/node': 22.15.30
 
   '@types/graceful-fs@4.1.9':
     dependencies:
-      '@types/node': 22.15.29
+      '@types/node': 22.15.30
 
   '@types/hammerjs@2.0.46': {}
 
@@ -6191,7 +6194,7 @@ snapshots:
 
   '@types/json5@0.0.29': {}
 
-  '@types/node@22.15.29':
+  '@types/node@22.15.30':
     dependencies:
       undici-types: 6.21.0
 
@@ -6828,7 +6831,7 @@ snapshots:
 
   chrome-launcher@0.15.2:
     dependencies:
-      '@types/node': 22.15.29
+      '@types/node': 22.15.30
       escape-string-regexp: 4.0.0
       is-wsl: 2.2.0
       lighthouse-logger: 1.4.2
@@ -6837,7 +6840,7 @@ snapshots:
 
   chromium-edge-launcher@0.2.0:
     dependencies:
-      '@types/node': 22.15.29
+      '@types/node': 22.15.30
       escape-string-regexp: 4.0.0
       is-wsl: 2.2.0
       lighthouse-logger: 1.4.2
@@ -8223,7 +8226,7 @@ snapshots:
       '@jest/environment': 29.7.0
       '@jest/fake-timers': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 22.15.29
+      '@types/node': 22.15.30
       jest-mock: 29.7.0
       jest-util: 29.7.0
 
@@ -8233,7 +8236,7 @@ snapshots:
     dependencies:
       '@jest/types': 29.6.3
       '@types/graceful-fs': 4.1.9
-      '@types/node': 22.15.29
+      '@types/node': 22.15.30
       anymatch: 3.1.3
       fb-watchman: 2.0.2
       graceful-fs: 4.2.11
@@ -8260,7 +8263,7 @@ snapshots:
   jest-mock@29.7.0:
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 22.15.29
+      '@types/node': 22.15.30
       jest-util: 29.7.0
 
   jest-regex-util@29.6.3: {}
@@ -8268,7 +8271,7 @@ snapshots:
   jest-util@29.7.0:
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 22.15.29
+      '@types/node': 22.15.30
       chalk: 4.1.2
       ci-info: 3.9.0
       graceful-fs: 4.2.11
@@ -8285,7 +8288,7 @@ snapshots:
 
   jest-worker@29.7.0:
     dependencies:
-      '@types/node': 22.15.29
+      '@types/node': 22.15.30
       jest-util: 29.7.0
       merge-stream: 2.0.0
       supports-color: 8.1.1

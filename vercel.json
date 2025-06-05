@@ -2,14 +2,14 @@
     "$schema": "https://openapi.vercel.sh/vercel.json",
     "devCommand": "expo",
     "buildCommand": "expo export -p web",
-    "outputDirectory": "dist",
+    "outputDirectory": "dist/client",     
     "cleanUrls": true,
     "framework": null,
     "rewrites": [
-          {
-            "source": "/:path*",
-            "destination": "/"
-          }
+      {
+        "source": "/(.*)",
+        "destination": "/api/index"
+      }
     ],
     "functions": {
       "api/index.ts": {
