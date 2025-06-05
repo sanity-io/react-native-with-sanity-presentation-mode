@@ -107,7 +107,11 @@ In the output, you'll find options to open the app in a
 You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
 
 ## Deploying
-Deploy the Expo app via your preferred mechanism and make sure to deploy any files containing "+api" in the name as serverless functions. In this project, those APIs are Expo API routes, but you could use AWS lambda, GCP functions, etc. The only serverless API in this project is used for session key validation (see Token Management below).
+Make an Expo project and add the environment variables from env.example to the EAS environment variable store for your Expo project. 
+
+Follow Expo's hosting guide for deploying (to get the web version up) and building for iOS simulator, iOS, Android, etc depending on your use case. (This project was built for web and iOS simulator, so it should work for at least those two things). Make sure to change the projectId to your own project. 
+
+Make sure to use the "server" web output in app.json so that any +api Expo routes are deployed as serverless functions). In this project, those APIs are Expo API routes, but you could change them to be in AWS lambda, GCP functions, etc if you choose. The only serverless API in this project is used for session key validation (see Token Management below).
 
 Update any URLs in the Studio's project CORS origins accordingly. Any host that wants to query your project has to be allowed in those project CORS settings -- credentials need to be allowed if that host wants to pass a Sanity authorization token as part of that query (see Token Management below).
 

@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "visual-editor",
-    "slug": "react-native-x-sanity-visual-editing",
+    "name": "sanity-visual-editor",
+    "slug": "sanity-visual-editor",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -10,7 +10,7 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.johnnypovolny.reactnativexsanityvisualediting",
+      "bundleIdentifier": "com.johnnypovolny.sanityvisualeditor",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
@@ -21,9 +21,6 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true
-    },
-    "config": {
-      "projectId": "ba31fb14-ff8d-448a-9b4e-7ce3b75dc975"
     },
     "web": {
       "bundler": "metro",
@@ -48,9 +45,8 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "ba31fb14-ff8d-448a-9b4e-7ce3b75dc975"
+        "projectId": "f7d46a98-bda7-4c64-8804-e1b0b876fde4"
       }
-    },
-    "owner": "johnnypovolny"
+    }
   }
 }
