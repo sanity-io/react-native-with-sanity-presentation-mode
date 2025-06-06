@@ -5,7 +5,7 @@
 // BECAUSE IT CAN VIEW DRAFT CONTENT (WHICH SHOULD BE SECURED EVEN IN PRIVATE DATASETS)
 
 const {validatePreviewUrl} = require("@sanity/preview-url-secret"); 
-const { BASE_URL } = require("../constants");
+const { WEB_APP_BASE_URL } = require("../constants");
 const { sanityClient } = require("../sanity/client");
 
 type RequestBody = {
@@ -14,32 +14,49 @@ type RequestBody = {
   'sanity-preview-perspective'?: string;
 } 
 
+async function OPTIONS() {
+  return new Response(null, {
+    status: 200,
+    headers: {
+      'Access-Control-Allow-Origin': "*",
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+      'Access-Control-Allow-Credentials': 'true',
+    },
+  });
+}
+
 async function POST(request: Request): Promise<Response> {
   console.log("RUNNING VALIDATE!!!!!!!!!!!");
   try {
-    const { PRIVATE_SANITY_VIEWER_TOKEN: token = '' } = process.env;
-    const { 'sanity-preview-secret': secret, 'sanity-preview-pathname': pathname, 'sanity-preview-perspective': perspective } = await request.json() as RequestBody;
+    const requestBody = await request.json() as RequestBody;
+    const { 'sanity-preview-secret': secret, 'sanity-preview-pathname': pathname, 'sanity-preview-perspective': perspective } = requestBody
+
 
     if (!secret) {
-        throw new Error("Preview mode missing token");
-    }
-    if (!token) {
-        throw new Error("Internal server error");
+      return new Response(JSON.stringify({error: 'Invalid request'}), {status: 400})
     }
   
-    const url = `${BASE_URL}/${pathname}?sanity-preview-secret=${secret}&sanity-preview-perspective=${perspective}&sanity-preview-pathname=${pathname}`      
+    const url = `${WEB_APP_BASE_URL}/${pathname}?sanity-preview-secret=${secret}&sanity-preview-perspective=${perspective}&sanity-preview-pathname=${pathname}`      
 
-    const { isValid, redirectTo = "/" } = await validatePreviewUrl(
+    const validation = await validatePreviewUrl(
         sanityClient,
         url     
       );
+
+    console.log("validation", validation);
+    const { isValid } = validation;
 
     if(!isValid) {
       console.log("Unauthorized/invalid"); 
       return new Response(JSON.stringify({error: 'Unauthorized'}), {status: 401})
     }
 
-    return Response.json({ isValid, redirectTo, token });
+    return new Response(JSON.stringify(validation), { status: 200, headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type, Authorization"
+    } })
   } catch (error) {
     console.error("Error in validate request:", error); 
     return new Response(JSON.stringify({error: 'Internal Server Error'}), {status: 500})
@@ -47,5 +64,6 @@ async function POST(request: Request): Promise<Response> {
 }
 
 module.exports = {
-  POST
+  POST,
+  OPTIONS
 }

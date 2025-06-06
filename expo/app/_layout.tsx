@@ -1,7 +1,7 @@
 import SanityVisualEditing from '@/components/SanityVisualEditing';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { useAppStore } from '@/store/app';
-import { getWebSession, isPresentationPluginIframe } from '@/utils/preview';
+import { buildValidationPayload, getWebSession, isPresentationPluginIframe } from '@/utils/preview';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
@@ -19,10 +19,8 @@ export default function RootLayout() {
   const { setToken } = useAppStore();
   const [checkedSession, setCheckedSession] = useState(false);
 
-
   useEffect(() => {
     const setContext = async () => {
-
       let token = '';
       try {
         const secret = session?.secret || ''
@@ -34,7 +32,7 @@ export default function RootLayout() {
       if (secret && pathname && perspective && !checkedSession) {
         const result = await fetch('/api/validate', {
           method: 'POST',
-          body: JSON.stringify(session)
+          body: JSON.stringify(buildValidationPayload(session))
         })
         const body = await result.json();
         token = body.token;

@@ -76,24 +76,60 @@ const locationResolver = {locations: {
 To view the source repo of the sanity studio that was used to develop this application, see this [Github Repo](https://github.com/codebravotech/react-native-with-sanity-presentation-mode-studio). Note that you could also clone and spin up this repo, but you would not have any test data configured, so you'd have to add a few test documents each of types Movie and Person.
 
 
-## Get started
+## Development
 
 #### NOTE: pnpm is recommended, development using other package managers has not been rigorously tested.
 
-1. Add a `.env.development.local` file using the same format as `.env.example`.
+#### Steps:
+
+1. Setup your environment in the Vercel Console:
+    #### API Env Vars:
+    Configure all env variables in Vercel for the Development, Preview, and Production envs in the Project -> Settings -> Environment Variables console
+    For local dev in the "api" workspace, `vercel dev` will auto-load the Development env into memory, so you don't need to do anything
+    #For deployed API, Vercel should pick up the Production env from the Vercel console
+    Note that for Development you can leave PRIVATE_SANITY_VIEWER_TOKEN as a regular var (sensitive not supported for Development),
+    but in Preview/Production it should be set to sensitive to avoid being bundled with any FE code
+
+    Vars:
+
+    ```
+    SANITY_PROJECT_ID=project_id
+    SANITY_DATASET=dataset_name
+    SANITY_STUDIO_URL=studio_url_localhost_or_deployed
+    BASE_URL=base_url_of_this_app_localhost_or_deployed
+    PRIVATE_SANITY_VIEWER_TOKEN=Add your sanity viewer token from manage.sanity.io (go to project settings then API tab).
+    ```
+
+    #### Expo Env Vars
+    For local dev or local native builds in the "expo" workspace, run "npx vercel env pull" from the expo directory to generate a .env.local file that Expo can use
+    For deployed Expo web app, Vercel should pick up the Production env from the Vercel console
+    For deployed Expo native builds, you'll need to set the same env variables in the Expo project console!
+
+    Vars:
+
+    ```
+    EXPO_PUBLIC_SANITY_PROJECT_ID=project_id
+    EXPO_PUBLIC_SANITY_DATASET=dataset_name
+    EXPO_PUBLIC_SANITY_STUDIO_URL=studio_url_localhost_or_deployed
+    EXPO_PUBLIC_API_BASE_URL=base_url_of_api_that_serves_/api/validate_route
+    ```
 
 2. Install dependencies
-
-   ```bash
+ 
+    From the project root run:
+   ```
    pnpm install
    ```
 
+3. Run `vercel init` from each of your workspace directories to link each workspace to your Vercel project.
 
-3. Start the app
-
-   ```bash
-   pnpm exec expo start
+4. Start the API and app concurrently in the same terminal window:
+  
+    From the project root, run
    ```
+   pnpm start
+   ```
+   You can also run the workspaces individually in 2 separate terminal windows if you prefer, by running `pnpm start` from each workspace directory, one in each terminal window.
 
 In the output, you'll find options to open the app in a
 
@@ -106,21 +142,21 @@ In the output, you'll find options to open the app in a
 
 You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
 
-## Deploying
-### DON'T DEPLOY WEB APP ON EXPO HOSTING -- Expo hosting adds a Content Security Policy header by default that prevents the Sanity Studio from loading the Expo web app in an iframe. Deploy instead to Vercel, Netlify, or another service that allows you to customize that header. You can/should still build your actual native device/simulator builds using Expo. 
+## Deployment
+#### DON'T DEPLOY THE EXPO WEB APP ON EXPO HOSTING -- Expo hosting adds a Content Security Policy header by default that prevents the Sanity Studio from loading the Expo web app in an iframe. Deploy instead to Vercel, Netlify, or another service that allows you to customize that header. You can/should still build your actual native device/simulator builds using Expo. 
 
 ### Shared Setup for Native and Web App builds (app.json)
 Make sure to change the projectId in app.json to your own project's ID.
 
-Make sure to use the "server" web output in app.json if you have any "+api" suffixed app files (which are for API Expo routes), so the server and client portions are built separately. In this project, the single API is an Expo API route which is only used by the web app version and which I'm deploying as a Vercel serverless function (see Web Deployments below), but you could change it to be in AWS lambda, GCP functions, etc if you choose. That API is used for session key validation (see Token Management below).
+In this project, the single API is a Vercel serverless function (see Web Deployments below), but you could change it to be in AWS lambda, GCP function, etc if you choose. That API is used for session key validation (see Token Management below).
 
 ### Native/Simulator Builds
-Make an Expo project in the Expo dashboard. 
+Make an Expo project in the Expo dashboard.
 
 Follow Expo's guides building for iOS simulator, iOS, Android, etc and chosen environment (development, preview, production, etc), depending on your use case.  (This project was built successfully as a preview build for iOS simulator, so it should work for at least that use case). 
 
 ### Web Deployments
-In this codebase, I've set the projet up to deploy both front end and the single API route to Vercel hosting and Vercel serverless functions respectively, and I've configured it to add a correct CSP header that allows my own sanity studio URL to load this web app in an iframe (see vercel.json). Update the CSP header rewrite in vercel.json to use your own studio URL or refactor the codebase to use a different hosting service (see warning above about Expo Hosting and Presentation mode -- incompatible at this time due to configuration constraints in Expo).
+In this codebase, I've set the projet up to deploy the expo web app workspace and the api workspace to Vercel hosting and Vercel serverless functions respectively. I've configured the web app's vercel.json to add a correct CSP header that allows my own sanity studio URL to load this web app in an iframe (see vercel.json). Update the CSP header rewrite in vercel.json to use your own studio URL or refactor the codebase to use a different hosting service (see warning above about Expo Hosting and Presentation mode -- incompatible at this time due to configuration constraints in Expo).
 
 Update any URLs in the Studio's project CORS origins accordingly. Any host that wants to query your project has to be allowed in those project CORS settings -- credentials need to be allowed if that host wants to pass a Sanity authorization token as part of that query (see Token Management below).
 

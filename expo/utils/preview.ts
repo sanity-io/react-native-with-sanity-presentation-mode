@@ -67,5 +67,13 @@ const createDataAttributeWebOnly = (options: {id: string, type: string, path: st
   return isPresentationPluginIframe() ? createDataAttribute(options) : ''
 }
 
-export { destroyWebSession, getClientOptions, getWebSession, isPresentationPluginIframe, isWeb, createDataAttributeWebOnly, setWebSession };
+const buildValidationPayload = (session: { secret: string, pathname: string, perspective: string }) => {
+  return {
+    'sanity-preview-secret': session.secret,
+    'sanity-preview-pathname': session.pathname,
+    'sanity-preview-perspective': session.perspective
+  }
+}
+
+export { destroyWebSession, getClientOptions, getWebSession, isPresentationPluginIframe, isWeb, createDataAttributeWebOnly, setWebSession, buildValidationPayload };
 

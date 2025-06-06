@@ -12,5 +12,4 @@ export const createSanityClient = (config: {token?: string, perspective?: Client
       enabled: true,
       studioUrl: SANITY_STUDIO_URL,
     },
-    
   })

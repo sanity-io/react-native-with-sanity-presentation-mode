@@ -20,7 +20,7 @@ export default function SanityVisualEditing() {
     const disable = isPresentationPluginIframe() ? enableVisualEditing({
       history: {
         subscribe: (navigate) => {
-          console.log('NAVIGATION EVENT:', pathname)
+          console.log('NAVIGATION EVENT:', {navigate, pathname})
           // We navigate to Expo Router's current pathname.
           navigate({
             type: 'push',
@@ -34,7 +34,7 @@ export default function SanityVisualEditing() {
           console.log('URL UPDATE:', u)
           switch (u.type) {
             case 'push':
-              return  router.push(u.url)
+              return router.push(u.url)
             case 'pop':
               return router.back()
             case 'replace':
