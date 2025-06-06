@@ -75,6 +75,11 @@ const locationResolver = {locations: {
 
 To view the source repo of the sanity studio that was used to develop this application, see this [Github Repo](https://github.com/codebravotech/react-native-with-sanity-presentation-mode-studio). Note that you could also clone and spin up this repo, but you would not have any test data configured, so you'd have to add a few test documents each of types Movie and Person.
 
+## GOTCHAS
+#### #1 -- Refreshing:
+Presently, there is no way to hook into the @sanity/visual-editing package's "refresh API" when using the `enableVisualEditing` function (to my knowledge, the only way to enable visual editing in the pure React context, that is, not in a framework like NextJS, Remix, etc, which have access to a VisualEditing component with a "refresh" prop). Since React Native doesn't use any frameworks, we're stuck without that helper component and its refresh API. That refresh API allows the app's code to handle the clicking of the "refresh" button (circular arrow icon) in the Presentation window URL toolbar, so because the button's default functionality doesn't work correctly with Expo Router/React Native, the button crashes Presentation mode (and freezes the window) if the front end loaded in the visual editor is a web build of a React Native app. If you get to this frozen state, do a refresh of the browser window itself and presentation mode will reload at the route you were on previously.
+
+**TL;DR: Use your BROWSER'S refresh button, not Presentation's "circular arrow" button.**
 
 ## Development
 
@@ -129,16 +134,14 @@ To view the source repo of the sanity studio that was used to develop this appli
    ```
    pnpm start
    ```
-   You can also run the workspaces individually in 2 separate terminal windows if you prefer, by running `pnpm start` from each workspace directory, one in each terminal window.
+    **Notes** 
+    - You can run also run the workspaces individually in 2 separate terminal windows if you prefer, by running `pnpm start` from each workspace directory, one in each terminal window. 
+    - When using the monorepo's main `start` command, Expo will receive standard input, not the API (to allow you to use the hotkeys that control Expo Go).
+    - If you see an error warning in Cursor/VSCode expo/tsconfig.json about `expo/tsconfig.base` not existing, and you have already run the start command for the monorepo or expo by itself (see below), sometimes you need to restart Cursor/VSCode (the IDE seems to have issues picking up the fact that expo starting up clears that error).
 
-In the output, you'll find options to open the app in a
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
 
-**However, the main goal is to open the app INSIDE of Sanity Studio, so run the Sanity Studio with Presentation plugin that you set up in the steps above, visit `http://localhost:3333`, and click the Presentation tab in the studio.**
+5. **The main goal of this repo is to open the Expo app INSIDE of Sanity Studio, so once you have started up the api and expo, start the Sanity Studio with Presentation plugin that you set up in the steps above (start it up from its repo/directory -- the studio code is not present in this codebase), visit `http://localhost:3333`, and click the Presentation tab in the local Studio.**
 
 You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
 

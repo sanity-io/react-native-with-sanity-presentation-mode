@@ -9,7 +9,7 @@
   "scripts": {
     "build": "tsc",
     "start": "vercel dev --listen 3000",
-    "deploy": "PLEASE DEPLOY FROM THE PROJECT ROOT",
+    "deploy": "echo \"PLEASE DEPLOY FROM THE PROJECT ROOT\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
