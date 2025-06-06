@@ -15,7 +15,7 @@
     "@expo/metro-config": "^0.20.14",
     "@expo/vector-icons": "^14.1.0",
     "@portabletext/react-native": "^1.1.13",
-    "@react-native-async-storage/async-storage": "^2.1.2",
+    "@react-native-async-storage/async-storage": "2.1.2",
     "@react-native-masked-view/masked-view": "^0.3.2",
     "@react-navigation/bottom-tabs": "^7.3.10",
     "@react-navigation/elements": "^2.3.8",
@@ -55,15 +55,21 @@
     "react-native-web": "^0.20.0",
     "react-native-webview": "13.13.5",
     "stream-browserify": "^3.0.0",
+    "styled-components": "^6.1.18",
     "zustand": "^5.0.5"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
+    "@types/express": "^5.0.2",
     "@types/react": "~19.0.10",
+    "@vercel/node": "^5.2.1",
     "eslint": "^9.25.0",
     "eslint-config-expo": "~9.2.0",
     "metro": "^0.82.4",
-    "typescript": "^5.4.0"
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.8.3",
+    "vercel": "^42.3.0"
   },
   "private": true,
   "packageManager": "pnpm@10.11.0+sha512.6540583f41cc5f628eb3d9773ecee802f4f9ef9923cc45b69890fb47991d4b092964694ec3a4f738a420c918a333062c8b925d312f42e4f0c263eb603551f977"
