@@ -5,7 +5,7 @@ import { Image } from 'react-native';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import { useQuery } from '@/data/sanity';
+import { useQuery } from '@/sanity';
 import { Person } from '@/types/sanity';
 import { urlFor } from '@/utils/image_url';
 import { createDataAttributeWebOnly } from '@/utils/preview';

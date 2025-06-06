@@ -1,29 +1,16 @@
 {
-  "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "expo export -p web",
-  "outputDirectory": "dist/client",     
-  "cleanUrls": true,
-  "framework": null,
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/api/index"
-    }
-  ],
-  "functions": {
-    "api/index.ts": {
-      "includeFiles": "dist/server/**"
-    }
-  },
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "Content-Security-Policy",
-          "value": "frame-ancestors 'self' https://react-native-visual-editor.sanity.studio"
-        }
-      ]
-    }
-  ]
+    "functions": {
+      "api/**.[jt]s": {
+        "source": "api_vercel/api"
+      }
+    },
+    "buildCommand": "expo export -p web",
+    "framework": null,
+    "outputDirectory": "dist",
+    "cleanUrls": true,
+    "routes": [
+      { "src": "/api/(.*)", "dest": "api/$1.ts" },   
+      { "handle": "filesystem" },                    
+      { "src": "/(.*)", "dest": "/index.html" }
+    ]
 }

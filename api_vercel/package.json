@@ -1,10 +1,9 @@
 {
-  "name": "visual-editor",
+  "name": "api_vercel",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "vercel dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -12,6 +11,11 @@
   "license": "ISC",
   "packageManager": "pnpm@10.11.0",
   "devDependencies": {
-    "concurrently": "^8.2.2"
+    "@types/node": "^22.15.30",
+    "typescript": "5.2.2"
+  },
+  "dependencies": {
+    "@sanity/client": "^7.4.1",
+    "@sanity/preview-url-secret": "^2.1.11"
   }
 }
