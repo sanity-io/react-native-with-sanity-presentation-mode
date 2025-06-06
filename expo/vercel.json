@@ -1,0 +1,8 @@
+{
+    "framework": null,
+    "outputDirectory": "dist",
+    "cleanUrls": true,
+    "rewrites": [
+      { "source": "/(.*)", "destination": "dist/index.html" }
+    ]
+}

@@ -1,5 +1,5 @@
-// client.ts
-import { ClientPerspective, createClient } from "@sanity/client";
+
+import { ClientPerspective, createClient } from "@sanity/client"
 import { SANITY_DATASET, SANITY_PROJECT_ID } from "../constants";
 
 export const createSanityClient = (config: {token?: string, perspective?: ClientPerspective} = { perspective: 'published' }) => createClient({

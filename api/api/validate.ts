@@ -15,6 +15,7 @@ type RequestBody = {
 } 
 
 export async function POST(request: Request): Promise<Response> {
+  console.log("RUNNING VALIDATE!!!!!!!!!!!");
   try {
     const { PRIVATE_SANITY_VIEWER_TOKEN: token = '' } = process.env;
     const { 'sanity-preview-secret': secret, 'sanity-preview-pathname': pathname, 'sanity-preview-perspective': perspective } = await request.json() as RequestBody;
