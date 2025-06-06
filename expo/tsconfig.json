@@ -1,4 +1,5 @@
 {
+  "rootDir": "./",
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "strict": true,
@@ -7,12 +8,14 @@
         "./*"
       ]
     },
-    "types": ["node"]
   },
   "include": [
     "**/*.ts",
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
-, "sanity/client.ts", "../api_vercel/sanityClient copy.ts"  ]
+    ],
+    "exclude": [
+      "dist"
+    ]
 }

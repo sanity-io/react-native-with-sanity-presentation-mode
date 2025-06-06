@@ -1,16 +1,14 @@
 {
     "functions": {
       "api/**.[jt]s": {
-        "source": "api_vercel/api"
+        "includeFiles": "api/**.[jt]s"
       }
     },
-    "buildCommand": "expo export -p web",
     "framework": null,
     "outputDirectory": "dist",
     "cleanUrls": true,
-    "routes": [
-      { "src": "/api/(.*)", "dest": "api/$1.ts" },   
-      { "handle": "filesystem" },                    
-      { "src": "/(.*)", "dest": "/index.html" }
+    "rewrites": [
+      { "source": "/api/(.*)", "destination": "api/routes/$1.ts" },
+      { "source": "/(.*)", "destination": "expo/dist/index.html" }
     ]
 }

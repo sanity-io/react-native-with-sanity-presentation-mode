@@ -12,7 +12,7 @@ importers:
         specifier: ^8.2.2
         version: 8.2.2
 
-  api_vercel:
+  api:
     dependencies:
       '@sanity/client':
         specifier: ^7.4.1
@@ -28,8 +28,11 @@ importers:
         specifier: 5.2.2
         version: 5.2.2
 
-  expo_vercel:
+  expo:
     dependencies:
+      '@emotion/unitless':
+        specifier: ^0.10.0
+        version: 0.10.0
       '@expo/metro-config':
         specifier: ^0.20.14
         version: 0.20.14
@@ -166,9 +169,6 @@ importers:
       '@babel/core':
         specifier: ^7.25.2
         version: 7.27.4
-      '@types/node':
-        specifier: ^22.15.30
-        version: 22.15.30
       '@types/react':
         specifier: ~19.0.10
         version: 19.0.14
@@ -178,6 +178,9 @@ importers:
       eslint-config-expo:
         specifier: ~9.2.0
         version: 9.2.0(eslint@9.28.0)(typescript@5.8.3)
+      metro:
+        specifier: ^0.82.4
+        version: 0.82.4
       typescript:
         specifier: ^5.4.0
         version: 5.8.3
@@ -707,6 +710,9 @@ packages:
 
   '@emotion/memoize@0.8.1':
     resolution: {integrity: sha512-W2P2c/VRW1/1tLox0mVUalvnWXxavmv/Oum2aPsRcoDJuob75FC3Y8FbpfLwUegRcxINtGUMPq0tFCvYNTBXNA==}
+
+  '@emotion/unitless@0.10.0':
+    resolution: {integrity: sha512-dFoMUuQA20zvtVTuxZww6OHoJYgrzfKM1t52mVySDJnMSEa08ruEvdYQbhvyu6soU+NeLVd3yKfTfT0NeV6qGg==}
 
   '@emotion/unitless@0.8.1':
     resolution: {integrity: sha512-KOEGMu6dmJZtpadb476IsZBclKvILjopjUii3V+7MnXIQCYh8W3NgNcgwo21n9LXZX6EDIKvqfjYxXebDwxKmQ==}
@@ -1274,8 +1280,8 @@ packages:
   '@types/babel__traverse@7.20.7':
     resolution: {integrity: sha512-dkO5fhS7+/oos4ciWxyEyjWe48zmG6wbCheo/G2ZnHx4fs3EU6YC6UM8rk56gAjNJ9P3MTH2jo5jb92/K6wbng==}
 
-  '@types/estree@1.0.7':
-    resolution: {integrity: sha512-w28IoSUCJpidD/TGviZwwMJckNESJZXFu7NBZ5YJ4mEUnNraUn9Pm8HSZm/jDF1pDWYKspWE7oVphigUPRakIQ==}
+  '@types/estree@1.0.8':
+    resolution: {integrity: sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w==}
 
   '@types/event-source-polyfill@1.0.5':
     resolution: {integrity: sha512-iaiDuDI2aIFft7XkcwMzDWLqo7LVDixd2sR6B4wxJut9xcp/Ev9bO4EFg4rm6S9QxATLBj5OPxdeocgmhjwKaw==}
@@ -5301,6 +5307,8 @@ snapshots:
 
   '@emotion/memoize@0.8.1': {}
 
+  '@emotion/unitless@0.10.0': {}
+
   '@emotion/unitless@0.8.1': {}
 
   '@eslint-community/eslint-utils@4.7.0(eslint@9.28.0)':
@@ -6200,7 +6208,7 @@ snapshots:
     dependencies:
       '@babel/types': 7.27.6
 
-  '@types/estree@1.0.7': {}
+  '@types/estree@1.0.8': {}
 
   '@types/event-source-polyfill@1.0.5': {}
 
@@ -7448,7 +7456,7 @@ snapshots:
       '@humanfs/node': 0.16.6
       '@humanwhocodes/module-importer': 1.0.1
       '@humanwhocodes/retry': 0.4.3
-      '@types/estree': 1.0.7
+      '@types/estree': 1.0.8
       '@types/json-schema': 7.0.15
       ajv: 6.12.6
       chalk: 4.1.2

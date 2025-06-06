@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "tsc",
+    "start:vercel": "vercel dev --listen 3000",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
