@@ -3,7 +3,6 @@ const path = require('path');
 
 const config = getDefaultConfig(__dirname);
 
-
 const projectRoot = __dirname;
 const monorepoRoot = path.resolve(projectRoot, '../..');
 

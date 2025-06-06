@@ -1,12 +1,15 @@
+const { createClient } = require("@sanity/client");
+const { SANITY_DATASET, SANITY_PROJECT_ID, PRIVATE_SANITY_VIEWER_TOKEN } = require("../constants");
 
-import { ClientPerspective, createClient } from "@sanity/client"
-import { SANITY_DATASET, SANITY_PROJECT_ID } from "../constants";
-
-export const createSanityClient = (config: {token?: string, perspective?: ClientPerspective} = { perspective: 'published' }) => createClient({
+const sanityClient = createClient({
     projectId: SANITY_PROJECT_ID || '',
     dataset: SANITY_DATASET || '',
     useCdn: true,
     apiVersion: '2025-05-30',
-    ...config,
+    token: PRIVATE_SANITY_VIEWER_TOKEN,
     stega: false
   })
+
+module.exports = {
+  sanityClient
+}

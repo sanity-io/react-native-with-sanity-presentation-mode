@@ -60,6 +60,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
+    "@sanity/color": "^3.0.6",
     "@types/express": "^5.0.2",
     "@types/react": "~19.0.10",
     "@vercel/node": "^5.2.1",
@@ -68,7 +69,6 @@
     "metro": "^0.82.4",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^5.8.3",
     "vercel": "^42.3.0"
   },
   "private": true,

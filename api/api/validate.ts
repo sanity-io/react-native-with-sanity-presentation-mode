@@ -4,9 +4,9 @@
 // THE POINT IS TO KEEP THE SANITY VIEWER TOKEN OUT OF THE CLIENT SIDE CODE
 // BECAUSE IT CAN VIEW DRAFT CONTENT (WHICH SHOULD BE SECURED EVEN IN PRIVATE DATASETS)
 
-import { validatePreviewUrl } from "@sanity/preview-url-secret";
-import { BASE_URL } from "../constants";
-import { createSanityClient } from "../sanity/client";
+const {validatePreviewUrl} = require("@sanity/preview-url-secret"); 
+const { BASE_URL } = require("../constants");
+const { sanityClient } = require("../sanity/client");
 
 type RequestBody = {
   'sanity-preview-secret'?: string;
@@ -14,7 +14,7 @@ type RequestBody = {
   'sanity-preview-perspective'?: string;
 } 
 
-export async function POST(request: Request): Promise<Response> {
+async function POST(request: Request): Promise<Response> {
   console.log("RUNNING VALIDATE!!!!!!!!!!!");
   try {
     const { PRIVATE_SANITY_VIEWER_TOKEN: token = '' } = process.env;
@@ -27,11 +27,10 @@ export async function POST(request: Request): Promise<Response> {
         throw new Error("Internal server error");
     }
   
-    const clientWithToken = createSanityClient({ token });
     const url = `${BASE_URL}/${pathname}?sanity-preview-secret=${secret}&sanity-preview-perspective=${perspective}&sanity-preview-pathname=${pathname}`      
 
     const { isValid, redirectTo = "/" } = await validatePreviewUrl(
-        clientWithToken,
+        sanityClient,
         url     
       );
 
@@ -45,4 +44,8 @@ export async function POST(request: Request): Promise<Response> {
     console.error("Error in validate request:", error); 
     return new Response(JSON.stringify({error: 'Internal Server Error'}), {status: 500})
   }
+}
+
+module.exports = {
+  POST
 }

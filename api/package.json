@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": ">=22 <23"
+  },
   "scripts": {
     "build": "tsc",
     "start:vercel": "vercel dev --listen 3000",
@@ -12,32 +15,13 @@
   "author": "",
   "license": "ISC",
   "packageManager": "pnpm@10.11.0",
-  "overrides": {
-    "@vercel/node": {
-      "path-to-regexp": "8.2.0",
-      "undici": "6.21.1",
-      "esbuild": "0.25.1",
-      "ts-node": "10.9.2",
-      "typescript": "5.8.2"
-    },
-    "vercel": {            
-      "ts-node": "10.9.2", 
-      "typescript": "5.8.2"
-    },
-    "@vercel/gatsby-plugin-vercel-builder": {
-      "esbuild": "0.25.1"
-    },
-    "@vercel/remix-builder": {
-      "path-to-regexp": "8.2.0"
-    }
-  },
   "devDependencies": {
+    "@tsconfig/node22": "^22.0.2",
     "@types/express": "^5.0.2",
     "@types/node": "^22.15.30",
     "@vercel/node": "^5.2.1",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
-    "typescript": "5.2.2",
     "vercel": "^42.3.0"
   },
   "dependencies": {
