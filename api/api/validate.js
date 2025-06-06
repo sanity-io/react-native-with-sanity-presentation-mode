@@ -5,20 +5,15 @@
 // BECAUSE IT CAN VIEW DRAFT CONTENT (WHICH SHOULD BE SECURED EVEN IN PRIVATE DATASETS)
 
 import { validatePreviewUrl } from "@sanity/preview-url-secret";
-import { BASE_URL } from "../constants";
-import { createSanityClient } from "../sanity/client";
+import { WEB_APP_BASE_URL } from "../constants.js";
+import { createSanityClient } from "../sanity/client.js";
 
-type RequestBody = {
-  'sanity-preview-secret'?: string;
-  'sanity-preview-pathname'?: string;
-  'sanity-preview-perspective'?: string;
-} 
-
-export async function POST(request: Request): Promise<Response> {
-  console.log("RUNNING VALIDATE!!!!!!!!!!!");
+export async function POST(request) {
   try {
     const { PRIVATE_SANITY_VIEWER_TOKEN: token = '' } = process.env;
-    const { 'sanity-preview-secret': secret, 'sanity-preview-pathname': pathname, 'sanity-preview-perspective': perspective } = await request.json() as RequestBody;
+    const { 'sanity-preview-secret': secret, 'sanity-preview-pathname': pathname, 'sanity-preview-perspective': perspective } = await request.json();
+
+    console.log({sanity_preview_secret: secret, sanity_preview_pathname: pathname, sanity_preview_perspective: perspective});
 
     if (!secret) {
         throw new Error("Preview mode missing token");
@@ -28,7 +23,7 @@ export async function POST(request: Request): Promise<Response> {
     }
   
     const clientWithToken = createSanityClient({ token });
-    const url = `${BASE_URL}/${pathname}?sanity-preview-secret=${secret}&sanity-preview-perspective=${perspective}&sanity-preview-pathname=${pathname}`      
+    const url = `${WEB_APP_BASE_URL}/${pathname}?sanity-preview-secret=${secret}&sanity-preview-perspective=${perspective}&sanity-preview-pathname=${pathname}`      
 
     const { isValid, redirectTo = "/" } = await validatePreviewUrl(
         clientWithToken,

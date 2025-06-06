@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "rm -rf dist && mkdir -p dist && cp .env.local dist/ && cp -r api dist/ && cp -r sanity dist/ && cp constants.js dist/",
     "start:vercel": "vercel dev --listen 3000",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -12,13 +12,10 @@
   "author": "",
   "license": "ISC",
   "packageManager": "pnpm@10.11.0",
-  "devDependencies": {
-    "@types/node": "^22.15.30",
-    "typescript": "5.2.2"
-  },
+  "devDependencies": {},
   "dependencies": {
     "@sanity/client": "^7.4.1",
     "@sanity/preview-url-secret": "^2.1.11",
-    "@sanity/types": "^3.91.0"
+    "dotenv": "^16.4.5"
   }
 }

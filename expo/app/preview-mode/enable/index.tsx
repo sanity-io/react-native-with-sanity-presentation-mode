@@ -1,5 +1,5 @@
 import { ThemedText } from '@/components/ThemedText';
-import { BASE_URL } from '@/constants';
+import { WEB_APP_BASE_URL } from '@/constants';
 import { isWeb, setWebSession } from '@/utils/preview';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect } from 'react';
@@ -22,8 +22,8 @@ export default function EnablePresentation() {
       }
       const { 'sanity-preview-secret': secret = '', 'sanity-preview-pathname': pathname = '/', 'sanity-preview-perspective': perspective = 'published' } = params
       try {
-        // If you deploy your service using something besides a hosted Expo API Route, replace BASE_URL with the domain for that lambda, GCP function, etc.
-        const response = await fetch(`${BASE_URL}/api/validate`, {
+        // If you deploy your service using something besides a hosted Expo API Route, replace WEB_APP_BASE_URL with the domain for that lambda, GCP function, etc.
+        const response = await fetch(`${WEB_APP_BASE_URL}/api/validate`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
