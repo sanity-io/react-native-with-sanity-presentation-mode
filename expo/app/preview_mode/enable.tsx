@@ -52,7 +52,11 @@ export default function EnablePresentation() {
   }, []);
   
   if(!isPresentationPluginIframe()) {
-    return <div>Preview mode is not supported in this environment (must be in the Sanity Studio)</div>
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ThemedText>Preview mode is not supported in this environment (must be in the Sanity Studio)</ThemedText>
+      </View>
+    )
   }
 
   return (

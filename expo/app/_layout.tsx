@@ -66,8 +66,6 @@ export default function RootLayout() {
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="preview-mode/enable" options={{ headerShown: false }} />
-          <Stack.Screen name="preview-mode/disable" options={{ headerShown: false }} />
           <Stack.Screen name="movie/[movie_slug]" options={{ headerShown: false }} />
           <Stack.Screen name="person/[person_slug]" options={{ headerShown: false }} />
           <Stack.Screen name="+not-found" />

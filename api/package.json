@@ -1,5 +1,5 @@
 {
-  "name": "api_vercel",
+  "name": "api",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,7 +8,8 @@
   },
   "scripts": {
     "build": "tsc",
-    "start:vercel": "vercel dev --listen 3000",
+    "start": "vercel dev --listen 3000",
+    "deploy": "PLEASE DEPLOY FROM THE PROJECT ROOT",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

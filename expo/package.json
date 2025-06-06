@@ -3,8 +3,9 @@
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
-    "start:vercel": "vercel dev --listen 8081",
+    "start": "npx expo start --clear",
     "build": "npx expo export -p web",
+    "deploy": "PLEASE DEPLOY FROM THE PROJECT ROOT",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
