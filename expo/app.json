@@ -25,10 +25,7 @@
     "web": {
       "bundler": "metro",
       "output": "single",
-      "favicon": "./assets/images/favicon.png",
-      "experiments": {
-        "baseUrl": "/expo"
-      }
+      "favicon": "./assets/images/favicon.png"
     },
     
     "plugins": [

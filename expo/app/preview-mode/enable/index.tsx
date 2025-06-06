@@ -1,6 +1,6 @@
 import { ThemedText } from '@/components/ThemedText';
 import { BASE_URL } from '@/constants';
-import { isWeb, setWebSession } from '@/utils/preview';
+import { isPresentationPluginIframe, setWebSession } from '@/utils/preview';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect } from 'react';
 import { ActivityIndicator, View } from 'react-native';
@@ -17,7 +17,7 @@ export default function EnablePresentation() {
 
   useEffect(() => {
     const validateAndEnablePreview = async () => {
-      if(!isWeb()) {
+      if(!isPresentationPluginIframe()) {
         return null
       }
       const { 'sanity-preview-secret': secret = '', 'sanity-preview-pathname': pathname = '/', 'sanity-preview-perspective': perspective = 'published' } = params
@@ -50,6 +50,10 @@ export default function EnablePresentation() {
 
     validateAndEnablePreview()
   }, []);
+  
+  if(!isPresentationPluginIframe()) {
+    return <div>Preview mode is not supported in this environment (must be in the Sanity Studio)</div>
+  }
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
