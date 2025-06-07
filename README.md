@@ -1,7 +1,6 @@
 # React Native x Sanity Visual Editing
 
-This project is intended to provide a starting point for development of React Native apps that load data using the Sanity Client. 
-
+This project is intended to provide a starting point for development of React Native apps that load data using the Sanity Client. It is a monorepo that includes a workspace with a Vercel serverless API and an Expo React Native Project.
 
 ## Dependencies/PreWork
 
@@ -9,7 +8,7 @@ This project is intended to provide a starting point for development of React Na
 
 #### Without the Sanity studio set up, the runtime of the React Native app itself shouldn't crash, but you won't see anything load on the test "movie" and "people" screens (feel free to remove them and update the nav if they are not needed, and in that case, you can set up a Sanity project/studio however you prefer and set the env file accordingly to point to that project -- see below).
 
-**BOOTSTRAP STEPS:**
+**BOOTSTRAP STEPS FOR THE SANIY STUDIO (NOT FOR THIS REPO -- SEE Development SECTION BELOW):**
 1. Run `sanity init` in some repo (preferably a separate repo but could be a folder in this repo or a monorepo etc, depending on how/where you want to manage your studio config)
 2. When that init script asks you to chose a project template, you've chosen `Movie project (schema + sample data)`
 3. When the init script asks `Add a sampling of sci-fi movies to your dataset on the hosted backend?`, you choose yes. 
@@ -75,9 +74,15 @@ const locationResolver = {locations: {
 
 To view the source repo of the sanity studio that was used to develop this application, see this [Github Repo](https://github.com/codebravotech/react-native-with-sanity-presentation-mode-studio). Note that you could also clone and spin up this repo, but you would not have any test data configured, so you'd have to add a few test documents each of types Movie and Person.
 
-## GOTCHAS
+## GOTCHAS (for this repo)
 #### #1 -- Refreshing:
 Presently, there is no way to hook into the @sanity/visual-editing package's "refresh API" when using the `enableVisualEditing` function (to my knowledge, the only way to enable visual editing in the pure React context, that is, not in a framework like NextJS, Remix, etc, which have access to a VisualEditing component with a "refresh" prop). Since React Native doesn't use any frameworks, we're stuck without that helper component and its refresh API. That refresh API allows the app's code to handle the clicking of the "refresh" button (circular arrow icon) in the Presentation window URL toolbar, so because the button's default functionality doesn't work correctly with Expo Router/React Native, the button crashes Presentation mode (and freezes the window) if the front end loaded in the visual editor is a web build of a React Native app. If you get to this frozen state, do a refresh of the browser window itself and presentation mode will reload at the route you were on previously.
+
+#### #2 -- PNPM Install + Expo
+I've noticed that intermittently the pnpm install does not seem to install all of expo's dependencies (sometimes issue happens at install or at runtime) -- when I run into this, I generally just remove node_modules from the workspace root and workspaces, remove pnpm-lock.yaml, clear the pnpm cache (`pnpm cache delete`), and re-run `pnpm install`. This especially seems to happen if I run the "concurrently" script to start both workspaces without first running `pnpm start` in the expo workspace once. 
+
+#### #3 -- Vercel Global Install
+If not prevented, `vercel dev` uses its own version of typescript at runtime rather than the version in your dependencies. I've used `overrides` in pnpm-workspace.yaml to prevent this, but the project assumes you do not have a globally installed version of vercel (and instead will use `npx vercel COMMAND` to run things) -- it may work with a global version, but that is not tested. 
 
 **TL;DR: Use your BROWSER'S refresh button, not Presentation's "circular arrow" button.**
 
@@ -86,11 +91,14 @@ Presently, there is no way to hook into the @sanity/visual-editing package's "re
 #### NOTE: pnpm is recommended, development using other package managers has not been rigorously tested.
 
 #### Steps:
+1. Create 3 Vercel projects, one for the root folder's vercel.json that does rewrites so you can serve the whole project from one domain (attach this to a project named how you want for that domain), one for Expo and one for the API.
 
-1. Setup your environment in the Vercel Console:
-    #### API Env Vars:
+2. Link the root directory and each workspace to its corresponding vercel project (use `npx vercel link` in each directory and follow the prompts).
+
+3. In the Vercel Console add the following env vars: 
+    #### API Project Env Vars:
     Configure all env variables in Vercel for the Development, Preview, and Production envs in the Project -> Settings -> Environment Variables console
-    For local dev in the "api" workspace, `vercel dev` will auto-load the Development env into memory, so you don't need to do anything
+    For local dev in the "vercel_api" workspace, `npx vercel dev` will auto-load the Development env into memory, so you don't need to do anything
     #For deployed API, Vercel should pick up the Production env from the Vercel console
     Note that for Development you can leave PRIVATE_SANITY_VIEWER_TOKEN as a regular var (sensitive not supported for Development),
     but in Preview/Production it should be set to sensitive to avoid being bundled with any FE code
@@ -105,7 +113,7 @@ Presently, there is no way to hook into the @sanity/visual-editing package's "re
     PRIVATE_SANITY_VIEWER_TOKEN=Add your sanity viewer token from manage.sanity.io (go to project settings then API tab).
     ```
 
-    #### Expo Env Vars
+    #### Expo Project Env Vars
     For local dev or local native builds in the "expo" workspace, run "npx vercel env pull" from the expo directory to generate a .env.local file that Expo can use
     For deployed Expo web app, Vercel should pick up the Production env from the Vercel console
     For deployed Expo native builds, you'll need to set the same env variables in the Expo project console!
@@ -119,16 +127,16 @@ Presently, there is no way to hook into the @sanity/visual-editing package's "re
     EXPO_PUBLIC_API_BASE_URL=base_url_of_api_that_serves_/api/validate_route
     ```
 
-2. Install dependencies
+4. Install dependencies
  
     From the project root run:
    ```
    pnpm install
    ```
 
-3. Run `vercel init` from each of your workspace directories to link each workspace to your Vercel project.
+5. Run `pnpm start` from the "expo" workspace to set up expo for the first time (for some reason running it from the monorepo root seems to cause Gotcha #2, see above). Once expo is up and running (verify in the browser at localhost:8081), you can quit this process. You should ONLY need to do this step on a fresh install (after repo clone or after resolving Gotcha #2, see above).
 
-4. Start the API and app concurrently in the same terminal window:
+6. Start the API and app concurrently in the same terminal window:
   
     From the project root, run
    ```
@@ -141,7 +149,7 @@ Presently, there is no way to hook into the @sanity/visual-editing package's "re
 
 
 
-5. **The main goal of this repo is to open the Expo app INSIDE of Sanity Studio, so once you have started up the api and expo, start the Sanity Studio with Presentation plugin that you set up in the steps above (start it up from its repo/directory -- the studio code is not present in this codebase), visit `http://localhost:3333`, and click the Presentation tab in the local Studio.**
+5. **The main goal of this repo is to open the Expo app INSIDE of Sanity Studio, so once you have started up the vercel_api and expo, start the Sanity Studio with Presentation plugin that you set up in the steps above (start it up from its repo/directory -- the studio code is not present in this codebase), visit `http://localhost:3333`, and click the Presentation tab in the local Studio.**
 
 You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
 
@@ -159,7 +167,14 @@ Make an Expo project in the Expo dashboard.
 Follow Expo's guides building for iOS simulator, iOS, Android, etc and chosen environment (development, preview, production, etc), depending on your use case.  (This project was built successfully as a preview build for iOS simulator, so it should work for at least that use case). 
 
 ### Web Deployments
-In this codebase, I've set the projet up to deploy the expo web app workspace and the api workspace to Vercel hosting and Vercel serverless functions respectively. I've configured the web app's vercel.json to add a correct CSP header that allows my own sanity studio URL to load this web app in an iframe (see vercel.json). Update the CSP header rewrite in vercel.json to use your own studio URL or refactor the codebase to use a different hosting service (see warning above about Expo Hosting and Presentation mode -- incompatible at this time due to configuration constraints in Expo).
+In this codebase, I've set the projet up to deploy the expo web app workspace and the vercel_api workspace to Vercel hosting and Vercel serverless functions, respectively. 
+
+The deploy command (run from the project root) is: 
+```
+pnpm deploy:production
+```
+
+I've configured the web app's vercel.json to add a correct CSP header that allows my own sanity studio URL to load this web app in an iframe (see vercel.json). Update the CSP header rewrite in vercel.json to use your own studio URL or refactor the codebase to use a different hosting service (see warning above about Expo Hosting and Presentation mode -- incompatible at this time due to configuration constraints in Expo).
 
 Update any URLs in the Studio's project CORS origins accordingly. Any host that wants to query your project has to be allowed in those project CORS settings -- credentials need to be allowed if that host wants to pass a Sanity authorization token as part of that query (see Token Management below).
 

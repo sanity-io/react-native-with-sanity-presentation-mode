@@ -1,0 +1,12 @@
+{
+  "name": "proxy",
+  "version": "1.0.0",
+  "description": "Rewrite rules for single domain on vercel",
+  "main": "index.js",
+  "scripts": {
+    "build": "echo \"Error: no build action\"",
+    "test": "echo \"Error: no test specified\""
+  },
+  "author": "",
+  "license": "ISC"
+}

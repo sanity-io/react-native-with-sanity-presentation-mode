@@ -4,8 +4,7 @@
   "description": "",
   "scripts": {
     "start": "node start.js",
-    "startbackup": "concurrently --raw  --handle-input --default-input-target 1 -n \"API,EXPO WEB APP\" -c \"blue, green\" \"pnpm --filter api start\" \"pnpm --filter expo start\"",
-    "deploy:production": "vercel --prod",
+    "deploy:production": "cd proxy && npx vercel --prod && cd .. && cd vercel_api && npx vercel --prod && cd .. && cd expo && npx vercel --prod && cd ..",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

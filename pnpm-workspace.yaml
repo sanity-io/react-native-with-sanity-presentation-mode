@@ -1,5 +1,5 @@
 packages:
-  - api
+  - vercel_api
   - expo
 overrides: 
   "@vercel/node>ts-node": "$ts-node"
