@@ -79,7 +79,7 @@ To view the source repo of the sanity studio that was used to develop this appli
 Presently, there is no way to hook into the @sanity/visual-editing package's "refresh API" when using the `enableVisualEditing` function (to my knowledge, the only way to enable visual editing in the pure React context, that is, not in a framework like NextJS, Remix, etc, which have access to a VisualEditing component with a "refresh" prop). Since React Native doesn't use any frameworks, we're stuck without that helper component and its refresh API. That refresh API allows the app's code to handle the clicking of the "refresh" button (circular arrow icon) in the Presentation window URL toolbar, so because the button's default functionality doesn't work correctly with Expo Router/React Native, the button crashes Presentation mode (and freezes the window) if the front end loaded in the visual editor is a web build of a React Native app. If you get to this frozen state, do a refresh of the browser window itself and presentation mode will reload at the route you were on previously.
 
 #### #2 -- PNPM Install + Expo
-I've noticed that intermittently the pnpm install does not seem to install all of expo's dependencies (sometimes issue happens at install or at runtime) -- when I run into this, I generally just remove node_modules from the workspace root and workspaces, remove pnpm-lock.yaml, clear the pnpm cache (`pnpm cache delete`), and re-run `pnpm install`. This especially seems to happen if I run the "concurrently" script to start both workspaces without first running `pnpm start` in the expo workspace once. 
+I've noticed that intermittently the pnpm install does not seem to install all of expo's dependencies (sometimes issue happens at install or at runtime) -- when I run into this, I generally just remove node_modules from the workspace root and workspaces, remove pnpm-lock.yaml, clear the pnpm cache (`pnpm cache delete`), and re-run `pnpm install`. This especially seems to happen if I run the "concurrently" script to start both workspaces without first running `pnpm start` in the expo_app workspace once. 
 
 #### #3 -- Vercel Global Install
 If not prevented, `vercel dev` uses its own version of typescript at runtime rather than the version in your dependencies. I've used `overrides` in pnpm-workspace.yaml to prevent this, but the project assumes you do not have a globally installed version of vercel (and instead will use `npx vercel COMMAND` to run things) -- it may work with a global version, but that is not tested. 
@@ -114,7 +114,7 @@ If not prevented, `vercel dev` uses its own version of typescript at runtime rat
     ```
 
     #### Expo Project Env Vars
-    For local dev or local native builds in the "expo" workspace, run "npx vercel env pull" from the expo directory to generate a .env.local file that Expo can use
+    For local dev or local native builds in the "expo_app" workspace, run "npx vercel env pull" from the expo_app directory to generate a .env.local file that Expo can use
     For deployed Expo web app, Vercel should pick up the Production env from the Vercel console
     For deployed Expo native builds, you'll need to set the same env variables in the Expo project console!
 
@@ -134,7 +134,7 @@ If not prevented, `vercel dev` uses its own version of typescript at runtime rat
    pnpm install
    ```
 
-5. Run `pnpm start` from the "expo" workspace to set up expo for the first time (for some reason running it from the monorepo root seems to cause Gotcha #2, see above). Once expo is up and running (verify in the browser at localhost:8081), you can quit this process. You should ONLY need to do this step on a fresh install (after repo clone or after resolving Gotcha #2, see above).
+5. Run `pnpm start` from the "expo_app" workspace to set up expo for the first time (for some reason running it from the monorepo root seems to cause Gotcha #2, see above). Once expo is up and running (verify in the browser at localhost:8081), you can quit this process. You should ONLY need to do this step on a fresh install (after repo clone or after resolving Gotcha #2, see above).
 
 6. Start the API and app concurrently in the same terminal window:
   
@@ -145,11 +145,11 @@ If not prevented, `vercel dev` uses its own version of typescript at runtime rat
     **Notes** 
     - You can run also run the workspaces individually in 2 separate terminal windows if you prefer, by running `pnpm start` from each workspace directory, one in each terminal window. 
     - When using the monorepo's main `start` command, Expo will receive standard input, not the API (to allow you to use the hotkeys that control Expo Go).
-    - If you see an error warning in Cursor/VSCode expo/tsconfig.json about `expo/tsconfig.base` not existing, and you have already run the start command for the monorepo or expo by itself (see below), sometimes you need to restart Cursor/VSCode (the IDE seems to have issues picking up the fact that expo starting up clears that error).
+    - If you see an error warning in Cursor/VSCode expo_app/tsconfig.json about `expo/tsconfig.base` not existing, and you have already run the start command for the monorepo or expo by itself (see below), sometimes you need to restart Cursor/VSCode (the IDE seems to have issues picking up the fact that expo starting up clears that error).
 
 
 
-5. **The main goal of this repo is to open the Expo app INSIDE of Sanity Studio, so once you have started up the vercel_api and expo, start the Sanity Studio with Presentation plugin that you set up in the steps above (start it up from its repo/directory -- the studio code is not present in this codebase), visit `http://localhost:3333`, and click the Presentation tab in the local Studio.**
+5. **The main goal of this repo is to open the Expo app INSIDE of Sanity Studio, so once you have started up the vercel_api and expo_app, start the Sanity Studio with Presentation plugin that you set up in the steps above (start it up from its repo/directory -- the studio code is not present in this codebase), visit `http://localhost:3333`, and click the Presentation tab in the local Studio.**
 
 You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
 
@@ -167,7 +167,7 @@ Make an Expo project in the Expo dashboard.
 Follow Expo's guides building for iOS simulator, iOS, Android, etc and chosen environment (development, preview, production, etc), depending on your use case.  (This project was built successfully as a preview build for iOS simulator, so it should work for at least that use case). 
 
 ### Web Deployments
-In this codebase, I've set the projet up to deploy the expo web app workspace and the vercel_api workspace to Vercel hosting and Vercel serverless functions, respectively. 
+In this codebase, I've set the projet up to deploy the expo_app workspace and the vercel_api workspace to Vercel hosting and Vercel serverless functions, respectively. 
 
 The deploy command (run from the project root) is: 
 ```
@@ -179,7 +179,7 @@ I've configured the web app's vercel.json to add a correct CSP header that allow
 Update any URLs in the Studio's project CORS origins accordingly. Any host that wants to query your project has to be allowed in those project CORS settings -- credentials need to be allowed if that host wants to pass a Sanity authorization token as part of that query (see Token Management below).
 
 ## Token Management
-DO NOT STORE A SANITY TOKEN IN ANY FRONT END -- IT IS AN API KEY. A non-persistent "session" key is received as a query parameter from the Presentation plugin when it loads its configured "enable" page route. In this project, that session key is then exchanged for a token via the `api/validate` serverless expo function.
+DO NOT STORE A SANITY TOKEN IN ANY FRONT END -- IT IS AN API KEY. A non-persistent "session" key is received as a query parameter from the Presentation plugin when it loads its configured "enable" page route. In this project, that session key is then exchanged for a token via the `api/validate` vercel serverless function.
 
 ## Other Notes
 Several standard modules from Node that are part of the @sanity library but are not in the React Native runtime are shimmed using metro.config.js. Run the expo start command above with the `--clear` flag to clear the metro cache if you make additions/modifications to those shims for your own use case.

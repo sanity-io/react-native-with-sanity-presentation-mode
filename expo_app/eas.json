@@ -4,6 +4,7 @@
     "appVersionSource": "remote"
   },
   "build": {
+    "corepack": true,
     "development": {
       "developmentClient": true,
       "environment": "development",
