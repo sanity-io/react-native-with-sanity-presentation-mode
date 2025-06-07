@@ -1,4 +1,8 @@
 packages:
-  - api
-  - expo
-  
+  - vercel_api
+  - expo_app
+overrides: 
+  "@vercel/node>ts-node": "$ts-node"
+  "@vercel/node>typescript": "$typescript"
+  "vercel>ts-node": "$ts-node"
+  "vercel>typescript": "$typescript"

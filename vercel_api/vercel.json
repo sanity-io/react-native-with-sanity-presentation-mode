@@ -1,0 +1,12 @@
+{
+  "framework": null,
+  "buildCommand": "tsc",
+  "routes": [
+    {
+      "src": "/validate",
+      "dest": "/api/validate",
+      "methods": ["POST"]
+    }
+  ],
+  "outputDirectory": "dist"
+}
