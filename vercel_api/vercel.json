@@ -1,6 +1,5 @@
 {
   "framework": null,
-  "installCommand": "corepack up && pnpm install",
   "buildCommand": "tsc",
   "routes": [
     {

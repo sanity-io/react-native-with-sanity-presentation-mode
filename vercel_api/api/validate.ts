@@ -15,9 +15,6 @@ type RequestBody = {
   'sanity-preview-perspective'?: string;
 } 
 
-export const config = {
-  runtime: 'edge',
-};
 
 export async function OPTIONS() {
   return new Response(null, {
