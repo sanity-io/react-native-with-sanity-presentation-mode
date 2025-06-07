@@ -15,18 +15,19 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "packageManager": "pnpm@10.11.0",
+  "packageManager": "pnpm@10.11.1+sha512.e519b9f7639869dc8d5c3c5dfef73b3f091094b0a006d7317353c72b124e80e1afd429732e28705ad6bfa1ee879c1fce46c128ccebd3192101f43dd67c667912",
+  "dependencies": {
+    "@sanity/client": "^7.4.1",
+    "@sanity/preview-url-secret": "^2.1.11",
+    "undici": "^7.10.0"
+  },
   "devDependencies": {
     "@tsconfig/node22": "^22.0.2",
     "@types/express": "^5.0.2",
     "@types/node": "^22.15.30",
-    "@vercel/node": "^5.2.1",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
+    "typescript": "5.8.3",
     "vercel": "^42.3.0"
-  },
-  "dependencies": {
-    "@sanity/client": "^7.4.1",
-    "@sanity/preview-url-secret": "^2.1.11"
   }
 }
