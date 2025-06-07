@@ -7,8 +7,6 @@
     "node": ">=22 <23"
   },
   "scripts": {
-    "installCommand": "pnpm install",
-    "install": "pnpm install",
     "build": "tsc",
     "start": "vercel dev --listen 3000",
     "deploy": "echo \"PLEASE DEPLOY FROM THE PROJECT ROOT\"",
