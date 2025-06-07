@@ -4,7 +4,9 @@
     "appVersionSource": "remote"
   },
   "build": {
-    "corepack": true,
+    "corepack": {
+      "pnpm": "10.11.1"
+    },
     "development": {
       "developmentClient": true,
       "environment": "development",
