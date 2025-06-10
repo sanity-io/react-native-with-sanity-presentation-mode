@@ -75,16 +75,11 @@ const locationResolver = {locations: {
 To view the source repo of the sanity studio that was used to develop this application, see this [Github Repo](https://github.com/codebravotech/react-native-with-sanity-presentation-mode-studio). Note that you could also clone and spin up this repo, but you would not have any test data configured, so you'd have to add a few test documents each of types Movie and Person.
 
 ## GOTCHAS (for this repo)
-#### #1 -- Refreshing:
-Presently, there is no way to hook into the @sanity/visual-editing package's "refresh API" when using the `enableVisualEditing` function (to my knowledge, the only way to enable visual editing in the pure React context, that is, not in a framework like NextJS, Remix, etc, which have access to a VisualEditing component with a "refresh" prop). Since React Native doesn't use any frameworks, we're stuck without that helper component and its refresh API. That refresh API allows the app's code to handle the clicking of the "refresh" button (circular arrow icon) in the Presentation window URL toolbar, so because the button's default functionality doesn't work correctly with Expo Router/React Native, the button crashes Presentation mode (and freezes the window) if the front end loaded in the visual editor is a web build of a React Native app. If you get to this frozen state, do a refresh of the browser window itself and presentation mode will reload at the route you were on previously.
-
-#### #2 -- PNPM Install + Expo
+#### #1 -- PNPM Install + Expo
 I've noticed that intermittently the pnpm install does not seem to install all of expo's dependencies (sometimes issue happens at install or at runtime) -- when I run into this, I generally just remove node_modules from the workspace root and workspaces, remove pnpm-lock.yaml, clear the pnpm cache (`pnpm cache delete`), and re-run `pnpm install`. This especially seems to happen if I run the "concurrently" script to start both workspaces without first running `pnpm start` in the expo_app workspace once. 
 
-#### #3 -- Vercel Global Install
+#### #2 -- Vercel Global Install
 If not prevented, `vercel dev` uses its own version of typescript at runtime rather than the version in your dependencies. I've used `overrides` in pnpm-workspace.yaml to prevent this, but the project assumes you do not have a globally installed version of vercel (and instead will use `npx vercel COMMAND` to run things) -- it may work with a global version, but that is not tested. 
-
-**TL;DR: Use your BROWSER'S refresh button, not Presentation's "circular arrow" button.**
 
 ## Development
 

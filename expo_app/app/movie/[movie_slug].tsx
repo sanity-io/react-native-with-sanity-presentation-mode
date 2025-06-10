@@ -1,17 +1,18 @@
+import Loading from '@/components/Loading';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { SANITY_DATASET, SANITY_PROJECT_ID, SANITY_STUDIO_URL } from '@/constants';
+import useOptimistic from '@/hooks/useOptimistic';
 import { useQuery } from '@/sanity';
 import { CastMember, Movie, Person } from '@/types/sanity';
 import { urlFor } from '@/utils/image_url';
 import { createDataAttributeWebOnly } from '@/utils/preview';
-import { sharedStyles, sharedStyles as styles } from '@/utils/styles';
+import { sharedStyles as styles } from '@/utils/styles';
 import { PortableText } from '@portabletext/react-native';
 import { Link, useLocalSearchParams } from 'expo-router';
 import groq from 'groq';
 import { Image } from 'react-native';
-import useOptimistic from '@/hooks/useOptimistic';
-import { SANITY_DATASET, SANITY_PROJECT_ID, SANITY_STUDIO_URL } from '@/constants';
 
 export default function MovieScreen() {
   const { movie_slug } = useLocalSearchParams();
@@ -55,7 +56,7 @@ export default function MovieScreen() {
   })
 
   if (!data) {
-    return <ThemedText>Loading...</ThemedText>
+    return <Loading/>
   }
 
   const castMembersWithPeople = castMembersOptimistic.map(castMember => {
@@ -72,7 +73,7 @@ export default function MovieScreen() {
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
       useTabBar={false}
     >
-      <Link style={sharedStyles.link} href="/movies">All Movies</Link>
+      <Link style={styles.link} href="/movies">All Movies</Link>
       <ThemedView style={styles.titleContainer}>
         <ThemedText type="title">{title}</ThemedText>
       </ThemedView>

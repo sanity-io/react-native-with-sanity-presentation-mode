@@ -21,6 +21,13 @@ export const sharedStyles = StyleSheet.create({
       justifyContent: 'center',
       gap: 10,
     },
+    fullSizeCenteredFlexContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: 10,
+      height: '100%',
+    },
     
     list: {
       flexDirection: 'column',

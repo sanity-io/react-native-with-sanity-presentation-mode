@@ -1,6 +1,7 @@
 import groq from 'groq';
 import { Image } from 'react-native';
 
+import Loading from '@/components/Loading';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
@@ -8,16 +9,19 @@ import { useQuery } from '@/sanity';
 import { Movie } from '@/types/sanity';
 import { urlFor } from '@/utils/image_url';
 import { createDataAttributeWebOnly } from '@/utils/preview';
-import { sharedStyles, sharedStyles as styles } from '@/utils/styles';
+import { sharedStyles as styles } from '@/utils/styles';
 import { Link } from 'expo-router';
 
 export default function MoviesScreen() {
   const query = groq`*[_type == "movie"]| order(title asc) { _id, _type, _key, title, slug { current }, poster { ..., asset -> { url } }, ...} `
   const { data } = useQuery<Movie[]>(query)
 
-
+  console.log('DATA: ', data)
+  
   if (!data) {
-    return <ThemedText>Loading...</ThemedText>
+    return (
+      <Loading />
+    )
   }
 
   return (
@@ -45,7 +49,7 @@ export default function MoviesScreen() {
             </ThemedView>
             <ThemedText type="default">
               <Link 
-              style={sharedStyles.link}
+              style={styles.link}
               href={{
                 pathname: '/movie/[movie_slug]',
                 params: { movie_slug: slug.current }

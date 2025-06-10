@@ -1,3 +1,4 @@
+import Loading from '@/components/Loading';
 import SanityVisualEditing from '@/components/SanityVisualEditing';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { useAppStore } from '@/store/app';
@@ -57,7 +58,7 @@ export default function RootLayout() {
   if (!loaded || !tokenChecked) {
     // I want to set up the initial state of the app before loading
     // any components, so I can use token, mode, etc.
-    return null;
+    return <Loading/>;
   }
 
   return (

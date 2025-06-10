@@ -1,21 +1,21 @@
-import groq from 'groq';
-import { Image } from 'react-native';
-
+import Loading from '@/components/Loading';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useQuery } from '@/sanity';
 import { Person } from '@/types/sanity';
 import { createDataAttributeWebOnly } from '@/utils/preview';
-import { sharedStyles, sharedStyles as styles } from '@/utils/styles';
+import { sharedStyles as styles } from '@/utils/styles';
 import { Link } from 'expo-router';
+import groq from 'groq';
+import { Image } from 'react-native';
 
 export default function PeopleScreen() {
   const query = groq`*[_type == "person"]| order(title asc) { _id, _type, _key, name, slug { current }, image { asset -> { url } } } `
   const {data} = useQuery<Person[]>(query)
 
   if (!data) {
-    return <ThemedText>Loading...</ThemedText>
+    return <Loading/>
   }
 
 
@@ -42,7 +42,7 @@ export default function PeopleScreen() {
           source={{ uri: image?.asset?.url }} style={styles.image} />
           <ThemedText type="default">
               <Link 
-              style={sharedStyles.link}
+              style={styles.link}
               href={{
                 pathname: '/person/[person_slug]',
                 params: { person_slug: slug.current }
