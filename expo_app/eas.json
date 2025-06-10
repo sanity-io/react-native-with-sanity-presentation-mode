@@ -16,7 +16,8 @@
       "distribution": "internal",
       "environment": "preview",
       "ios": {
-        "simulator": true
+        "simulator": true,
+        "image": "sdk-53"
       }
     },
     "production": {
