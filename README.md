@@ -9,8 +9,8 @@ This project is intended to provide a starting point for development of React Na
 #### Without the Sanity studio set up, the runtime of the React Native app itself shouldn't crash, but you won't see anything load on the test "movie" and "people" screens (feel free to remove them and update the nav if they are not needed, and in that case, you can set up a Sanity project/studio however you prefer and set the env file accordingly to point to that project -- see below).
 
 **BOOTSTRAP STEPS FOR THE SANIY STUDIO (NOT FOR THIS REPO -- SEE Development SECTION BELOW):**
-1. Run `sanity init` in some repo (preferably a separate repo but could be a folder in this repo or a monorepo etc, depending on how/where you want to manage your studio config)
-2. When that init script asks you to chose a project template, you've chosen `Movie project (schema + sample data)`
+1. Run `sanity init` in some repo (preferably a separate repo but could be a folder in this repo or a monorepo etc, depending on how/where you want to manage your studio config).
+2. When that init script asks you to choose a project template, choose `Movie project (schema + sample data)`.
 3. When the init script asks `Add a sampling of sci-fi movies to your dataset on the hosted backend?`, you choose yes. 
 4. Make sure that in that project's "API" tab on https://manage.sanity.io, you've added the following hosts to the allowed CORS origins (WITH credentials allowed if your front end queries will pass a Sanity token, see Token Management below):  
 - `http://localhost:8081` (or whatever host/port you run the React Native app on) 
