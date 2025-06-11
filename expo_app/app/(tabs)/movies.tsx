@@ -15,8 +15,6 @@ import { Link } from 'expo-router';
 export default function MoviesScreen() {
   const query = groq`*[_type == "movie"]| order(title asc) { _id, _type, _key, title, slug { current }, poster { ..., asset -> { url } }, ...} `
   const { data } = useQuery<Movie[]>(query)
-
-  console.log('DATA: ', data)
   
   if (!data) {
     return (
